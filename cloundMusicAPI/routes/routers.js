@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     //res.render('index', { title: 'Express' });
 });
 
-
+//歌单
 router.get('/newAlbumsList/:offset/:limit',function (req,res) {
     console.log(req.params)
     var category = encodeURIComponent("全部");
@@ -19,7 +19,7 @@ router.get('/newAlbumsList/:offset/:limit',function (req,res) {
     var dataList = [];
 
 
-
+    // 歌单（网友精选碟） hot||new http://music.163.com/#/discover/playlist/
     var options = {
         url: 'http://music.163.com/api/playlist/list?cat='+category+'&order='+order+'&offset='+offset+'&&limit='+limit,
         headers: {

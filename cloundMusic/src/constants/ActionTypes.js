@@ -1,0 +1,2 @@
+export const RECEIVE_MUSICS = 'RECEIVE_MUSICS';
+export const ACTIVE_ITEM = 'ACTIVE_ITEM';

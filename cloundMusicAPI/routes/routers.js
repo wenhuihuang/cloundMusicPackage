@@ -12,10 +12,12 @@ router.get('/', function(req, res, next) {
 //歌单
 router.get('/newAlbumsList/:offset/:limit',function (req,res) {
     console.log(req.params)
-    var category = encodeURIComponent("全部");
-    var order = 'hot';
-    var offset = 0;
-    var limit = 50;
+    var params = req.params;
+
+    var category = encodeURIComponent("全部"); //分类
+    var order = 'hot'; //排列
+    var offset = params.offset != "" && params.offset != null && params.offset != undefined ? params.offset : 0;
+    var limit =  params.limit != "" && params.limit != null && params.limit != undefined ? params.limit : 50;
     var dataList = [];
 
 
@@ -30,7 +32,7 @@ router.get('/newAlbumsList/:offset/:limit',function (req,res) {
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             var info = JSON.parse(body);
-           console.log(info)
+           //console.log(info)
             res.json(info);
 
         }

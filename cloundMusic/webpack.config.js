@@ -1,5 +1,5 @@
 
-'use strict';
+
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");  //css单独打包
 
@@ -16,8 +16,15 @@ module.exports = {
         loaders: [
             { test: /\.js$/, loader: "jsx!babel", include: /src/},
             { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass")},
-            { test: /\.(png|jpg)$/, loader: 'url?limit=8192'}
+            { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass")},
+            { test: /\.(png|jpe?g|gif|svg)(\?.*)?$/, loader: 'url?limit=8192'},
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url',
+                query: {
+                    limit: 10000
+                }
+            }
         ]
     },
 
@@ -30,7 +37,13 @@ module.exports = {
         port: 8888,
         colors: true,  //终端中输出结果为彩色
         historyApiFallback: true,  //不跳转
-        inline: true  //实时刷新
+        inline: true,  //实时刷新
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000',
+                secure: false
+            }
+        }
     },
 
     plugins: [

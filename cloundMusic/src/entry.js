@@ -2,8 +2,11 @@
 'use strict';
 
 //引入样式文件
-import './styles/app.scss';
+import './styles/common.scss';
+
+//引入字体样式
+import './iconfont/iconfont.css';
 
 
 //引入组件
-import './components/App.js';
+import './index.js';

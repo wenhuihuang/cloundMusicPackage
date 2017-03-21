@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import {
     RECEIVE_MUSICS,
-    ACTIVE_ITEM
+    ACTIVE_ITEM,
+    CHANGE_DID_INVALIDATE
 } from '../constants/ActionTypes';
 
 const activeItem = (state = 'all',action) => {
@@ -15,6 +16,7 @@ const activeItem = (state = 'all',action) => {
 
 const musics = (state = {
     more : false,
+    didInvalidate : false, //做无效
     offset : 0,
     items : []
 }, action) => {
@@ -24,9 +26,17 @@ const musics = (state = {
                 ...state,
                 more : action.musics.more,
                 offset : action.musics.offset,
+                didInvalidate : action.musics.didInvalidate,
                 items : state.items.concat(action.musics.playlists)
             }
+        case CHANGE_DID_INVALIDATE:
+            return {
+                ...state,
+                didInvalidate : action.musics.didInvalidate
+            }
+
     }
+
 }
 
 const receiveMusics = (state = {  }, action) => {

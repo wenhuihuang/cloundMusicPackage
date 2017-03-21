@@ -14,6 +14,11 @@ export const receiveMusics = (classify, json) => ({
 
 })
 
+const changeDidInvalidate = (obj) => ({
+    type : types.CHANGE_DID_INVALIDATE,
+    musics: obj
+})
+
 const fetchMusics = ( classify, offset, limit ) => dispatch => {
     let url = '/api/newAlbumsList/'+offset+'/'+limit
     return fetch(url)
@@ -25,7 +30,7 @@ const fetchMusics = ( classify, offset, limit ) => dispatch => {
                 //设置当前offset
                 json.offset=offset
                 if(json.code === 200){
-
+                    json.didInvalidate = false;
                     return dispatch(receiveMusics(classify,json))
                 }
             }
@@ -36,9 +41,7 @@ const fetchMusics = ( classify, offset, limit ) => dispatch => {
 
 }
 
-const shouldFetchMusics = (state) => {
-    console.log(state)
-}
+
 
 const getListOffset = (state, classify,limit) => {
     let classifyObj = state.receiveMusics[classify]
@@ -68,7 +71,17 @@ const getListOffset = (state, classify,limit) => {
  */
 
 export const fetchMusicesList = ( classify) => (dispatch,getState) => {
-    let limit = 50
-   let offset = getListOffset(getState(),classify,limit)
-    return dispatch(fetchMusics(classify, offset, limit ))
+    const classifyObj = getState().receiveMusics[classify] || {}
+    if(!classifyObj.didInvalidate){
+        //设置成禁用
+            classifyObj.didInvalidate = true;
+            dispatch(changeDidInvalidate(classifyObj))
+
+
+        let limit = 50
+        let offset = getListOffset(getState(),classify,limit)
+        return dispatch(fetchMusics(classify, offset, limit ))
+    }
+
+
 }

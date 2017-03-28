@@ -2,8 +2,9 @@ import React , { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchMusicesList } from '../actions/index'
 import Header from '../components/header/Header'
-import Playlist from '../components/playlist/Playlist'
+import Playlist from '../components/playlist/PlaylistPage'
 import AppStyle from './App.scss'
+import PlayController from '../components/playController/PlayController'
 
 /**
  * var es5React = React.createClass ES5 实现react组件
@@ -26,70 +27,36 @@ class App extends React.Component {
 
     static propTypes = {
         //receiveMusics: PropTypes.object.isRequired,
-        dispatch: PropTypes.func.isRequired
     }
 
-    handleScroll = (event) => {
-        const { dispatch, activeItem } = this.props
-        let playlistEle = document.getElementById('playlist');
 
-        //获取浏览器视口高度
-        let windowHeight = 0
-
-        if(document.compatMode == "CSS1Compat"){
-            windowHeight = document.documentElement.clientHeight
-        }else{
-            windowHeight = document.body.clientHeight
-        }
-
-        //palylist 的总高度
-        let palylistScrollHeight = playlistEle.scrollHeight;
-
-        //palylist 可视区域高度
-        let palylistClientHeight = windowHeight - playlistEle.offsetTop
-
-        //paylist scrollTop
-        let palylistTop = playlistEle.scrollTop
-
-        if(palylistTop + palylistClientHeight + 20 >= palylistScrollHeight) { //提前20个像素开始加载
-            dispatch(fetchMusicesList(activeItem ))
-
-        }
-    }
 
     componentDidMount() {
-        const { dispatch ,activeItem} = this.props
-        dispatch(fetchMusicesList(activeItem ))
+
+
     }
 
 
     render () {
-        const { activeItem ,items} = this.props
-        const isEmpty = activeItem.length === 0
+        const { children, currentPlay, isPlay } = this.props
         return(
             <div>
                 <Header></Header>
-
-                <Playlist items={items} activeItem={activeItem} onScroll={this.handleScroll} />
+                <PlayController currentPlay = {currentPlay} isPlay = {isPlay} />
+                {children}
             </div>
+
         )
     }
 }
 
 const mapStateToProps = state => {
-    const { receiveMusics, activeItem }  = state
-    const {
-        more,
-        items
-    } = receiveMusics[activeItem] || {
-        more : false,
-        items : []
-    }
+    const { changeCurrentPlay } = state
     return {
-        activeItem,
-        more,
-        items
-   }
+        currentPlay : changeCurrentPlay.currentPlay,
+        isPlay : changeCurrentPlay.isPlay
+    }
 }
+
 
 export default connect(mapStateToProps)(App)

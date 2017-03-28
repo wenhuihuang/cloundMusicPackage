@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
+import { routerReducer as routing } from 'react-router-redux'
+import * as Vibrant from 'node-vibrant'
 import {
     RECEIVE_MUSICS,
     ACTIVE_ITEM,
-    CHANGE_DID_INVALIDATE
+    CHANGE_DID_INVALIDATE,
+    RECEIVE_PLAYLIST_DETAIL
 } from '../constants/ActionTypes';
+
+import  { changeCurrentPlay }  from './playController'
 
 const activeItem = (state = 'all',action) => {
     switch (action.type){
@@ -51,9 +56,24 @@ const receiveMusics = (state = {  }, action) => {
     }
 }
 
+const receivePlaylistDetail = ( state = {  }, action) => {
+    switch (action.type) {
+        case RECEIVE_PLAYLIST_DETAIL:
+            return{
+                ...state,
+                detail : action.detail
+            }
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     receiveMusics, //歌曲列表信息 全局对象state上面的receiveMusices
-    activeItem //当前激活的选项 全局对象state上面的activeItem
+    activeItem, //当前激活的选项 全局对象state上面的activeItem
+    receivePlaylistDetail,//歌单详情
+    changeCurrentPlay,
+    routing
 })
 
 export default rootReducer

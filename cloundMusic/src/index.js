@@ -4,13 +4,17 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, browserHistory} from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+import routes from './routes'
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux'; //react 绑定库 Provider组件用于让所有容器组件都可以访问store，而不必显示地传递它，只需要在渲染根组件时使用即可
 import App from './containers/App';
 import reducer from './reducers';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
+
+
 
 /*浏览器redux调试工具*/
 const enhancers = []
@@ -40,9 +44,13 @@ const store = createStore(
     compose(applyMiddleware(...middleware),...enhancers)
 )
 
+const history = syncHistoryWithStore(browserHistory, store)
+
+
 //最终渲染
 ReactDom.render((
     <Provider store={store}>
-        <App />
+           {/*<App />*/}
+        <Router history={history} routes={routes} />
     </Provider>
 ), document.getElementById('app'));

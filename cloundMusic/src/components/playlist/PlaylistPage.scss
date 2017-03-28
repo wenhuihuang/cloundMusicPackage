@@ -19,9 +19,14 @@
     box-sizing: border-box;
     height : 16rem;
     .list-media{
+      a{
+        display: block;
+      }
       img {
         width: 100%;
         display: block;
+        min-height:12rem;
+        border:none
       }
       position: relative;
       .listen-count{

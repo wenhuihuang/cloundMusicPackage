@@ -1,0 +1,79 @@
+.playlist-detail{
+  .playlist-info{
+    .playlist-top-wrap{
+      position: relative;
+      .playlist-top-content{
+        padding: .8rem 1.2rem .5rem 1.2rem;
+      }
+      .playlist-top-bg{
+        position: absolute;
+        z-index: -1;
+        width:100%;
+        height:100%;
+        filter:blur(40px) saturate(1);
+        overflow: hidden;
+      }
+    }
+
+    .playlist-info-top{
+      display: flex;
+      .playlist-info-top-left{
+        flex:1.0;
+        box-sizing: border-box;
+        .left-content{
+          width: 100%;
+          img{
+            width: 100%;
+          }
+        }
+      }
+      .playlist-info-top-right{
+        flex:2.0;
+        box-sizing: border-box;
+        padding-left:1rem;
+      }
+    }
+    .playlist-info-bottom{
+      display: flex;
+      > div{
+        display: block;
+        flex: 1.0;
+        text-align: center;
+        span{
+          color:#fff;
+        }
+      }
+    }
+    .controler{
+      display: flex;
+    }
+  }
+}
+.playlist-item{
+  .playlist-item-li{
+    display: flex;
+
+    .playlist-no{
+      width:2.1rem;
+      text-align: center;
+      padding:.8rem 0;
+    }
+    .playlist-music-info{
+      border-bottom: 1px solid #F1F5F4;
+      flex:1.0;
+      padding:.8rem 0;
+      .name{
+        font-size:.9rem;
+      }
+      .artists-album{
+        font-size:.8rem;
+      }
+    }
+    .playlist-more{
+      border-bottom: 1px solid #F1F5F4;
+      width:2.1rem;
+      text-align:center;
+      padding:.8rem 0;
+    }
+  }
+}

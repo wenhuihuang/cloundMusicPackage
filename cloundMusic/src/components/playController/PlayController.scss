@@ -1,0 +1,40 @@
+.play-controller-wrap{
+  position:fixed;
+  width: 100%;
+  bottom:0;
+  background:#fff;
+  height: 2.8rem;
+  box-sizing: border-box;
+  padding:.2rem;
+  .play-controller{
+    display: flex;
+    .cover-img{
+      width:2.8rem;
+      img{
+        display: block;
+        width:100%;
+      }
+    }
+    .play-name{
+      flex:1.0;
+    }
+    .play-btn{
+      width:2.8rem;
+      display: flex;
+      align-items:center;
+      justify-content:center;
+      .icon{
+        font-size:1.8rem;
+      }
+    }
+    .play-list{
+      width:2.8rem;
+      display: flex;
+      align-items: center;
+      justify-content:center;
+      .icon{
+        font-size:1.8rem;
+      }
+    }
+  }
+}

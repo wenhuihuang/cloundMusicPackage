@@ -1,6 +1,6 @@
 const utils = {
-    getProxy : function () {
-        return 'http://localhost:3000'
+    setStyle (obj) {
+        return assign({},obj)
     }
 }
 export default utils

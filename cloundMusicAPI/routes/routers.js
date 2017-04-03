@@ -110,6 +110,20 @@ router.get('/song/detail/:music_id',function (req,res) {
     request(options, callback);
 })
 
+router.post('/user',function (req,res) {
+   var username = req.body.username;
+    var password = req.body.password;
+    if(username == '123' && password == 'e10adc3949ba59abbe56e057f20f883e'){
+        res.json({
+            code : 200
+        })
+    }else{
+        res.json({
+            error : 500,
+            errMsg : '出错了'
+        })
+    }
+})
 
 module.exports = router;
 

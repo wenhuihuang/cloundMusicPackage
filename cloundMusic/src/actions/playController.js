@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes'
 
-export const ChangeCurrentPlay = (currentPlay,isPlay=false) => ({
+export const changeCurrentPlay = (currentPlay,isPlay=false) => ({
     type : types.CHANGE_CURRENT_PLAY,
     isPlay:isPlay,
     currentPlay
@@ -15,7 +15,7 @@ export const fetchCurrentPlay = (music_id)  => dispatch =>{
             json => {
                 if(json.code === 200){
                     const songDetail = json.songs[0]
-                    return dispatch(ChangeCurrentPlay(songDetail,true))
+                    return dispatch(changeCurrentPlay(songDetail,true))
                 }
             }
         )

@@ -17,13 +17,20 @@
 
     .playlist-info-top{
       display: flex;
+      color:#fff;
       .playlist-info-top-left{
         flex:1.0;
         box-sizing: border-box;
         .left-content{
           width: 100%;
+          position:relative;
           img{
             width: 100%;
+          }
+          .count{
+            position:absolute;
+            right:.5rem;
+            top:0;
           }
         }
       }

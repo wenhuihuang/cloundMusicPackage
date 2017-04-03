@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'header')));
 app.use(cors({
-  origin: ['http://localhost:3000','http://localhost:8888'],
+  origin: ['http://localhost:3000','http://localhost:8888','http://192.168.0.103','http://localhost:8080'],
   methods: ['GET', 'POST'],
   alloweHeaders: ['Conten-Type', 'Authorization']
 }));

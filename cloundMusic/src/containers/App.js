@@ -38,11 +38,11 @@ class App extends React.Component {
 
 
     render () {
-        const { children, currentPlay, isPlay } = this.props
+        const { children, currentPlay, isPlay, dispatch } = this.props
         return(
             <div>
                 <Header></Header>
-                <PlayController currentPlay = {currentPlay} isPlay = {isPlay} />
+                <PlayController currentPlay = {currentPlay} isPlay = {isPlay} dispatch = {dispatch} />
                 {children}
             </div>
 
@@ -51,10 +51,11 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { changeCurrentPlay } = state
+    const { changeCurrentPlay, dispatch } = state
     return {
         currentPlay : changeCurrentPlay.currentPlay,
-        isPlay : changeCurrentPlay.isPlay
+        isPlay : changeCurrentPlay.isPlay,
+        dispatch : dispatch
     }
 }
 

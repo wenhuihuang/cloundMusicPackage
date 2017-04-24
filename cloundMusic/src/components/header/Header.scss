@@ -1,4 +1,35 @@
 .header{
   height: 2.8rem;
-  background: #31C27C;
+  background: #d33b30;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  a{
+    text-decoration: none;
+    color:#fff;
+  }
+  &-left-menu{
+    width: 2.8rem;
+    display: flex;
+    justify-content: center;
+    .iconfont{
+      font-size:1.3rem;
+    }
+  }
+  &-menu{
+    display: flex;
+    flex: 1.0;
+    justify-content: space-around;
+    .iconfont{
+      font-size:1.3rem;
+    }
+  }
+  &-search{
+    width: 2.8rem;
+    display: flex;
+    justify-content: center;
+    .iconfont{
+      font-size:1.3rem;
+    }
+  }
 }

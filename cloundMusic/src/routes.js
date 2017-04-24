@@ -7,6 +7,9 @@ import App from './containers/App'
 import PlaylistPage from './components/playlist/PlaylistPage'
 import PlaylistDetailPage from './components/playlistDetail/PlaylistDetailPage'
 import PlayViewPage from './components/playView/PlayViewPage'
+import LoginPage from './components/login/LoginPage'
+import SearchPage from './components/search/SearchPage'
+
 
 export default
     <Route path='/' component={App} >
@@ -14,4 +17,6 @@ export default
         <Route path="playlist/detail/:playlist_id" component={PlaylistDetailPage} />
         <Route path="playlist/list" component={PlaylistPage} />
         <Route path="playViewPage/show" component={PlayViewPage} />
+        <Route path="login" component={LoginPage} />
+        <Route path="search" component={SearchPage} />
     </Route>

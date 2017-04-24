@@ -3,6 +3,7 @@ import { fetchMusicesList } from '../../actions/index'
 import PlaylistPageStyle from './PlaylistPage.scss'
 import { Router, Route, Link } from 'react-router'
 import { connect } from 'react-redux'
+import OnlineMenu from '../onlineMenu/OnlineMenu'
 
 class PlaylistPage extends Component {
 
@@ -117,33 +118,36 @@ class PlaylistPage extends Component {
         } = this.props
 
         return (
-            <ul className="public-clearfix list-wrapper" id="playlist" onScroll={this.handleScroll}>
-                {
-                    items.map( ( item, i ) =>
-                        <li key={i} className="list-col">
-                            <Link to={'/playlist/detail/'+item.id} >
-                                <div className="list-media">
-                                    <img data-src={item.coverImgUrl} src='' />
-                                    <span className="listen-count">
+            <div>
+                <OnlineMenu />
+                <ul className="public-clearfix list-wrapper" id="playlist" onScroll={this.handleScroll}>
+                    {
+                        items.map( ( item, i ) =>
+                            <li key={i} className="list-col">
+                                <Link to={'/playlist/detail/'+item.id} >
+                                    <div className="list-media">
+                                        <img data-src={item.coverImgUrl} src='' />
+                                        <span className="listen-count">
                                     <i className="icon iconfont">&#xe652;</i>
                                     <span> {
                                         ( count =>  (count+'').length > 5 ? (count+'').slice(0,-4)+'万' : count )(item.playCount)
                                     } </span>
                                 </span>
-                                    <p className="list-creator">
-                                        <i className="icon iconfont">&#xe66b;</i>
-                                        <span className="public-ellipsis">{item.creator.nickname}</span>
-                                    </p>
-                                </div>
-                                <div className="list-info">
-                                    <h3 className="list-name">{item.name}</h3>
-                                </div>
-                            </Link>
-                        </li>
-                    )
-                }
+                                        <p className="list-creator">
+                                            <i className="icon iconfont">&#xe66b;</i>
+                                            <span className="public-ellipsis">{item.creator.nickname}</span>
+                                        </p>
+                                    </div>
+                                    <div className="list-info">
+                                        <h3 className="list-name">{item.name}</h3>
+                                    </div>
+                                </Link>
+                            </li>
+                        )
+                    }
 
-            </ul>
+                </ul>
+            </div>
         )
     }
 }

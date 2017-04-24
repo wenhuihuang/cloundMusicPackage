@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { Router, browserHistory} from 'react-router'
+import { Router,useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import routes from './routes'
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -13,6 +13,7 @@ import App from './containers/App';
 import reducer from './reducers';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
+import { createHistory } from 'history';
 
 
 
@@ -43,6 +44,10 @@ const store = createStore(
     reducer,
     compose(applyMiddleware(...middleware),...enhancers)
 )
+
+const browserHistory = useRouterHistory(createHistory)({
+    basename: '/cloundMusic'
+})
 
 const history = syncHistoryWithStore(browserHistory, store)
 

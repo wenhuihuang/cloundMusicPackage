@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import fetch from 'isomorphic-fetch';
+import md5 from 'md5'
 import * as types from '../constants/ActionTypes';
 import * as Vibrant from 'node-vibrant'
 import utils from '../utils/utils'
@@ -27,23 +28,65 @@ export const receivePlaylistDetail = result => ({
     detail : result
 })
 
+export const changeIsShowPlayView = isShowPlayView => ({
+    type : types.CHANGE_IS_SHOW_PLAY_VIEW,
+    isShowPlayView : isShowPlayView
+})
+
+//改变左边菜单
+export const changeIsShowLeftMenu = isShowLeftMenu => ({
+    type : types.CHANGE_IS_SHOW_LEFT_MENU,
+    isShowLeftMenu : isShowLeftMenu
+})
+
+export const receiveToken = token => ({
+    type : types.RECEIVE_TOKEN,
+    token : token
+})
+
+export const login = (userInfo,dispatch) => {
+    alert(userInfo.username)
+    console.log(userInfo)
+    console.log(md5(userInfo.password))
+    let url = '/api/weapi/login/cellphone'
+    return fetch(url, {
+        method : 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body : 'username='+userInfo.username+'&password='+userInfo.password
+    })
+    .then(
+        response => response.json()
+    )
+    .then(
+        json => {
+            //设置当前offset
+            json.offset=offset
+            if(json.code === 200){
+                console.log(json)
+            }
+        }
+    )
+}
+
 //获取歌曲列表
 const fetchMusics = ( classify, offset, limit ) => dispatch => {
     let url = '/api/playlist/list/'+offset+'/'+limit
     return fetch(url)
-        .then(
-            response => response.json()
-        )
-        .then(
-            json => {
-                //设置当前offset
-                json.offset=offset
-                if(json.code === 200){
-                    json.didInvalidate = false;
-                    return dispatch(receiveMusics(classify,json))
-                }
+    .then(
+        response => response.json()
+    )
+    .then(
+        json => {
+            //设置当前offset
+            json.offset=offset
+            if(json.code === 200){
+                json.didInvalidate = false;
+                return dispatch(receiveMusics(classify,json))
             }
-        )
+        }
+    )
 }
 
 //获取歌曲详情

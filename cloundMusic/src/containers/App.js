@@ -5,6 +5,8 @@ import Header from '../components/header/Header'
 import Playlist from '../components/playlist/PlaylistPage'
 import AppStyle from './App.scss'
 import PlayController from '../components/playController/PlayController'
+import PlayViewPage from '../components/playView/PlayViewPage'
+import LeftMenu from '../components/leftMenu/LeftMenu'
 
 /**
  * var es5React = React.createClass ES5 实现react组件
@@ -38,11 +40,13 @@ class App extends React.Component {
 
 
     render () {
-        const { children, currentPlay, isPlay, dispatch } = this.props
+        const { children, currentPlay, isPlay, dispatch, isShowPlayView, isShowLeftMenu } = this.props
         return(
             <div>
-                <Header></Header>
+                <Header dispatch = {dispatch}></Header>
                 <PlayController currentPlay = {currentPlay} isPlay = {isPlay} dispatch = {dispatch} />
+                <PlayViewPage currentPlay = {currentPlay} isPlay = {isPlay} dispatch = {dispatch} isShowPlayView = { isShowPlayView } />
+                <LeftMenu isShow = {isShowLeftMenu} dispatch = { dispatch } />
                 {children}
             </div>
 
@@ -51,10 +55,12 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { changeCurrentPlay, dispatch } = state
+    const { changeCurrentPlay, changeIsShowPlayView, dispatch, changeIsShowLeftMenu } = state
     return {
         currentPlay : changeCurrentPlay.currentPlay,
         isPlay : changeCurrentPlay.isPlay,
+        isShowPlayView : changeIsShowPlayView.isShowPlayView,
+        isShowLeftMenu : changeIsShowLeftMenu.isShowLeftMenu,
         dispatch : dispatch
     }
 }

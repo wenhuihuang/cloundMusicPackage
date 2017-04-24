@@ -57,6 +57,7 @@
   }
 }
 .playlist-item{
+  background:#F0F4F3;
   .playlist-item-li{
     display: flex;
 
@@ -64,9 +65,12 @@
       width:2.1rem;
       text-align: center;
       padding:.8rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .playlist-music-info{
-      border-bottom: 1px solid #F1F5F4;
+      border-bottom: 1px solid #D8DCDB;
       flex:1.0;
       padding:.8rem 0;
       .name{

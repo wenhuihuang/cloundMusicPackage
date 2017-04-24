@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import { changeCurrentPlay } from '../../actions/playController'
+import { changeIsShowPlayView } from '../../actions/index'
 import { Link } from 'react-router'
 
 import PlayControllerStyle from './PlayController.scss'
@@ -35,6 +36,11 @@ class PlayController extends Component{
         audio.pause()
     }
 
+    showPlayView(){
+        const { dispatch } = this.props
+        dispatch(changeIsShowPlayView(true))
+    }
+
     render(){
         const {currentPlay, isPlay} = this.props
         return (
@@ -43,13 +49,13 @@ class PlayController extends Component{
                     currentPlay &&
 
                     <div className="play-controller">
-                        <Link to={"playViewPage/show"}>
+                        <a href="javascript:;" onClick={this.showPlayView.bind(this)}>
                             <div className="cover-img"><img src={currentPlay.album.picUrl} /></div>
                             <div className="play-name">
                                 <p>{currentPlay.name}</p>
                                 <p>{currentPlay.artists[0].name}</p>
                             </div>
-                        </Link>
+                        </a>
 
                         <div className="play-btn" onClick={this.switchPlay.bind(this)}>
                             {

@@ -5,7 +5,9 @@ import {
     RECEIVE_MUSICS,
     ACTIVE_ITEM,
     CHANGE_DID_INVALIDATE,
-    RECEIVE_PLAYLIST_DETAIL
+    RECEIVE_PLAYLIST_DETAIL,
+    CHANGE_IS_SHOW_PLAY_VIEW,
+    CHANGE_IS_SHOW_LEFT_MENU
 } from '../constants/ActionTypes';
 
 import  { changeCurrentPlay }  from './playController'
@@ -68,11 +70,36 @@ const receivePlaylistDetail = ( state = {  }, action) => {
     }
 }
 
+const changeIsShowPlayView = (state = {isShowPlayView:false}, action ) => {
+    switch (action.type){
+        case CHANGE_IS_SHOW_PLAY_VIEW:
+            return{
+                isShowPlayView : action.isShowPlayView
+            }
+
+        default:
+            return state;
+    }
+}
+
+const changeIsShowLeftMenu = (state = {isShowLeftMenu:false},action) => {
+    switch (action.type){
+        case CHANGE_IS_SHOW_LEFT_MENU:
+            return {
+                isShowLeftMenu:action.isShowLeftMenu
+            }
+        default:
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     receiveMusics, //歌曲列表信息 全局对象state上面的receiveMusices
     activeItem, //当前激活的选项 全局对象state上面的activeItem
     receivePlaylistDetail,//歌单详情
+    changeIsShowPlayView,
     changeCurrentPlay,
+    changeIsShowLeftMenu,
     routing
 })
 

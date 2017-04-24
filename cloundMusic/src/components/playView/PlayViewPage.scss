@@ -1,0 +1,191 @@
+.playViewShow{
+  transition: transform 1s;
+  height:100%;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 103;
+  transform: translate3d(0,0,0);
+}
+.playViewHide{
+  transition: transform 1s;
+  height:100%;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 103;
+  transform: translate3d(0,100%,0);
+}
+.play-view{
+  position: fixed;
+  top: 0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: 100;
+  background:#fdfdfd;
+
+  .header{
+    background: transparent;
+    position:fixed;
+    width: 100%;
+    z-index: 101;
+    border-bottom: 1px solid #fff;
+    display: flex;
+    color:#fff;
+    align-items: center;
+    &-back{
+        .iconfont{
+          font-size:1.5rem;
+        }
+    }
+  }
+  .play-view-bg{
+    position:fixed;
+    top:2.8rem;
+    left:0;
+    right:0;
+    bottom:0;
+    filter:blur(40px) saturate(1);
+  }
+  .disk-view-content-wrapper{
+    position:relative;
+    top: 2.85rem;
+    overflow: hidden;
+    min-height: 36rem;
+    .play-controller-icon{
+      width:10.6rem;
+      height:10.6rem;
+      background: url(../../images/disk_controller_icon.png) no-repeat top center;
+      background-size: 100%;
+      margin-left:-5.3rem;
+      left:50%;
+      top:-1rem;
+      transform-origin: 1rem 1rem;
+      transform:translateX(4rem) rotate(0deg);
+      transition: transform 1s;
+      position: absolute;
+      z-index: 110;
+      &-rotate{
+        @extend .play-controller-icon;
+        transform: translateX(4rem) rotate(30deg)
+
+      }
+
+    }
+    .disk-view-content{
+      width:18rem+2*.6rem;
+      height:18rem + 2*.6rem;
+      margin:0 auto;
+      position:relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top:7rem;
+      &-active{
+        animation:diskRotate 7.5s linear infinite;
+      }
+      .disk-content-background{
+        width:18rem;
+        height:18rem;
+        position: absolute;
+        border-radius: 50%;
+        border:.61rem solid rgba(138, 136, 123, 0.12);
+        z-index: 10;
+        &:before{
+          content: '';
+          display: block;
+          width:18rem;
+          height:18rem;
+          background: url(../../images/disk_icon.png) no-repeat center center;
+          background-size: 100%;
+          position: absolute;
+          z-index: 8;
+        }
+      }
+      img{
+        width:18rem;
+        height:18rem;
+        border-radius: 50%;
+        overflow: hidden;
+        position: absolute;
+        z-index: 9;
+      }
+    }
+  }
+  /*控制区*/
+  .play-view-controller{
+    position:fixed;
+    bottom:1rem;
+    left:0;
+    right:0;
+    z-index: 9;
+    .item{
+      display: flex;
+      color:#fff;
+      .iconfont{
+        font-size:1.4rem;
+      }
+    }
+    .controller-top{
+      display: flex;
+      .item{
+        flex: 1.0;
+        display: flex;
+        align-items:center;
+        justify-content:center;
+      }
+    }
+    .controller-middle{
+      display: flex;
+      align-item:center;
+      justify-content:center;
+      .used-time{
+        width:3.2rem;
+        display: flex;
+        justify-content:center;
+        align-item:center;
+      }
+      .all-time{
+        width:3.2rem;
+        display: flex;
+        justify-content:center;
+        align-item:center;
+      }
+      .progress-wrapper{
+        flex:1.0;
+        display: flex;
+        align-items:center;
+      }
+      .progress-bar{
+        display: flex;
+        height:.15rem;
+        background:red;
+        width:100%;
+      }
+    }
+    .controller-bottom{
+      display:flex;
+      .item{
+        display: flex;
+        flex: 1.0;
+        align-item:center;
+        justify-content:center;
+      }
+    }
+  }
+}
+@keyframes diskRotate {
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
+}

@@ -1,0 +1,40 @@
+@import "../../styles/function";
+.search-page{
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  .search-page-header{
+      height: 2.8rem;
+      background: #d33b30;
+      color: #fff;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+    .head-back{
+      width: px2rem(48);
+    }
+    .search-input-wrapper{
+      flex: 1.0;
+      padding-right: px2rem(25);
+      .search-input{
+        padding: px2rem(4);
+        border: none;
+        width: 100%;
+        display: block;
+        border: none;
+        background: transparent;
+        border-bottom:1px solid #fff;
+        color: #fff;
+        &:focus{
+          outline: none;
+        }
+      }
+    }
+  }
+}

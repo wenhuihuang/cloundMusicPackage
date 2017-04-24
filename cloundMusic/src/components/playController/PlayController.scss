@@ -1,6 +1,7 @@
 .play-controller-wrap{
   position:fixed;
-  width: 100%;
+  right:0;
+  left:0;
   bottom:0;
   background:#fff;
   height: 2.8rem;
@@ -8,11 +9,19 @@
   padding:.2rem;
   .play-controller{
     display: flex;
+    > a{
+      display: flex;
+      flex:1.0;
+      text-decoration: none;
+      color:#000;
+    }
     .cover-img{
       width:2.8rem;
+      height:2.8rem;
       img{
         display: block;
         width:100%;
+        height:100%;
       }
     }
     .play-name{
@@ -24,6 +33,8 @@
       align-items:center;
       justify-content:center;
       .icon{
+        padding-bottom:3px;
+        margin-top:-3px;
         font-size:1.8rem;
       }
     }

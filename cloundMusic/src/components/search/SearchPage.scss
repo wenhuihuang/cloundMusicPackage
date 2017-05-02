@@ -1,13 +1,13 @@
 @import "../../styles/function";
+$header_height:2.8rem;
 .search-page{
-  position: fixed;
-  top:0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background: #fff;
+  overflow: auto;
+  ::-webkit-input-placeholder{
+    color: rgba(255,255,255,.7);
+  }
   .search-page-header{
-      height: 2.8rem;
+      height: $header_height;
       background: #d33b30;
       color: #fff;
       display: -webkit-box;
@@ -16,6 +16,10 @@
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
     .head-back{
       width: px2rem(48);
     }
@@ -29,12 +33,83 @@
         display: block;
         border: none;
         background: transparent;
-        border-bottom:1px solid #fff;
+        border-bottom:px2rem(1) solid #fff;
         color: #fff;
+
         &:focus{
           outline: none;
         }
       }
+    }
+  }
+  .search-content-list{
+    position: fixed;
+    top: $header_height;
+    left:0;
+    right:0;
+    width:88%;
+    margin: 0 auto;
+    background:#fff;
+    box-shadow: px2rem(0) px2rem(4) px2rem(6) px2rem(6) #d8d8d8;
+    z-index: 100;
+    .item{
+      padding:px2rem(12) px2rem(10);
+    }
+  }
+  .search-result-list{
+    background: #f0f4f3;
+    .search-type-wrapper{
+      overflow-x: auto;
+      overflow-y:hidden;
+      background: #fff;
+      position: fixed;
+      width: 100%;
+      .search-type-content{
+        display: block;
+        .search-type-item{
+          padding:0 px2rem(12);
+          height:px2rem(40);
+          line-height:px2rem(40);
+          display: inline-block;
+        }
+      }
+    }
+    .search-list-wrapper{
+      padding-top:px2rem(40)
+    }
+    .search-list-item{
+      display: flex;
+      font-size: px2rem(14);
+      border-bottom:px2rem(1) solid #ccc;
+      align-items:center;
+      padding:px2rem(12) px2rem(10);
+      .search-list-left{
+        flex:1.0;
+        .song-name{
+          margin-bottom: px2rem(4);
+        }
+      }
+      .search-list-right{
+        width: px2rem(24)
+      }
+    }
+
+  }
+  .history-list{
+    display: flex;
+    align-items: center;
+
+    .list-right{
+      display: flex;
+      flex: 1.0;
+      border-bottom: px2rem(1) solid #ececec;
+      padding:px2rem(10) px2rem(10);
+      .history-word{
+        flex:1.0;
+      }
+    }
+    .icon{
+      font-size:px2rem(16);
     }
   }
 }

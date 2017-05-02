@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { routerReducer as routing } from 'react-router-redux'
+import {combineReducers} from 'redux';
+import {routerReducer as routing} from 'react-router-redux'
 import * as Vibrant from 'node-vibrant'
 import {
     RECEIVE_MUSICS,
@@ -7,13 +7,14 @@ import {
     CHANGE_DID_INVALIDATE,
     RECEIVE_PLAYLIST_DETAIL,
     CHANGE_IS_SHOW_PLAY_VIEW,
-    CHANGE_IS_SHOW_LEFT_MENU
+    CHANGE_IS_SHOW_LEFT_MENU,
+    RECEIVE_SEARCH_LSIT
 } from '../constants/ActionTypes';
 
-import  { changeCurrentPlay }  from './playController'
+import  {changeCurrentPlay}  from './playController'
 
-const activeItem = (state = 'all',action) => {
-    switch (action.type){
+const activeItem = (state = 'all', action) => {
+    switch (action.type) {
         case ACTIVE_ITEM :
             return action.classify;
         default:
@@ -22,59 +23,59 @@ const activeItem = (state = 'all',action) => {
 }
 
 const musics = (state = {
-    more : false,
-    didInvalidate : false, //做无效
-    offset : 0,
-    items : []
+    more: false,
+    didInvalidate: false, //做无效
+    offset: 0,
+    items: []
 }, action) => {
-    switch (action.type){
+    switch (action.type) {
         case RECEIVE_MUSICS:
             return {
                 ...state,
-                more : action.musics.more,
-                offset : action.musics.offset,
-                didInvalidate : action.musics.didInvalidate,
-                items : state.items.concat(action.musics.playlists)
+                more: action.musics.more,
+                offset: action.musics.offset,
+                didInvalidate: action.musics.didInvalidate,
+                items: state.items.concat(action.musics.playlists)
             }
         case CHANGE_DID_INVALIDATE:
             return {
                 ...state,
-                didInvalidate : action.musics.didInvalidate
+                didInvalidate: action.musics.didInvalidate
             }
 
     }
 
 }
 
-const receiveMusics = (state = {  }, action) => {
+const receiveMusics = (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_MUSICS:
             return {
                 ...state,
-                [action.classify] : musics(state[action.classify],action)
+                [action.classify]: musics(state[action.classify], action)
             }
         default:
             return state
     }
 }
 
-const receivePlaylistDetail = ( state = {  }, action) => {
+const receivePlaylistDetail = (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_PLAYLIST_DETAIL:
-            return{
+            return {
                 ...state,
-                detail : action.detail
+                detail: action.detail
             }
         default:
             return state;
     }
 }
 
-const changeIsShowPlayView = (state = {isShowPlayView:false}, action ) => {
-    switch (action.type){
+const changeIsShowPlayView = (state = {isShowPlayView: false}, action) => {
+    switch (action.type) {
         case CHANGE_IS_SHOW_PLAY_VIEW:
-            return{
-                isShowPlayView : action.isShowPlayView
+            return {
+                isShowPlayView: action.isShowPlayView
             }
 
         default:
@@ -82,11 +83,24 @@ const changeIsShowPlayView = (state = {isShowPlayView:false}, action ) => {
     }
 }
 
-const changeIsShowLeftMenu = (state = {isShowLeftMenu:false},action) => {
-    switch (action.type){
+const changeIsShowLeftMenu = (state = {isShowLeftMenu: false}, action) => {
+    switch (action.type) {
         case CHANGE_IS_SHOW_LEFT_MENU:
             return {
-                isShowLeftMenu:action.isShowLeftMenu
+                isShowLeftMenu: action.isShowLeftMenu
+            }
+        default:
+            return state
+    }
+}
+
+//搜索歌曲
+const receiveSearchList = (state = {}, action) => {
+    switch (action.type){
+        case RECEIVE_SEARCH_LSIT:
+            return {
+                ...state,
+                list : action.list
             }
         default:
             return state
@@ -100,6 +114,7 @@ const rootReducer = combineReducers({
     changeIsShowPlayView,
     changeCurrentPlay,
     changeIsShowLeftMenu,
+    receiveSearchList,
     routing
 })
 

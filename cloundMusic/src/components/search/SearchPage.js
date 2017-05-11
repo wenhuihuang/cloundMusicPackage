@@ -8,7 +8,10 @@ import {browserHistory, Link} from 'react-router'
 import Single  from './Single';
 import Singer from './Singer';
 import Special from './Special';
-import Playlist from './Playlist'
+import Playlist from './Playlist';
+import Mv from './Mv';
+import RadioList from './RadioList'
+import UserList from './UserList'
 
 class SearchPage extends Component {
 
@@ -141,7 +144,7 @@ class SearchPage extends Component {
 
 
     render() {
-        const {singleList,singerList,specialList,playlist, children, ele} = this.props;
+        const {singleList,singerList,specialList,playlist,mvList,radioList,djprogramsList,userList, children, ele} = this.props;
         const list = singleList || singerList
         const historyArray = new SearchHistory().getSearchHistory();
 
@@ -164,7 +167,7 @@ class SearchPage extends Component {
                 {
 
 
-                    singleList.length > 0 || singerList.length>0 || specialList.length>0  ?
+                    singleList.length > 0 || singerList.length>0 || specialList.length>0 || playlist.length>0 || mvList.length>0 || radioList.length>0 || djprogramsList.length>0 || userList.length>0 ?
 
                         <div className="search-result-list">
 
@@ -220,6 +223,15 @@ class SearchPage extends Component {
                                             case 1000:
                                                 return <Playlist list={playlist} />
                                                 break;
+                                            case 1004:
+                                                return <Mv list={mvList} />
+                                                break;
+                                            case 1009:
+                                                return <RadioList radioList={radioList} djprogramsList={djprogramsList} />
+                                                break;
+                                            case 1002:
+                                                return <UserList list={userList} />
+                                                break;
                                             default:
                                         }
                                     })()
@@ -268,11 +280,20 @@ const mapStateToProps = state => {
     const singerList = receiveSearchList.singerList || []
     const specialList = receiveSearchList.specialList || []
     const playlist = receiveSearchList.playlist || []
+    const mvList = receiveSearchList.mvList || []
+    const radioList = receiveSearchList.radioList || [];
+    const djprogramsList = receiveSearchList.djprogramsList || []
+    const userList = receiveSearchList.userList || []
+
     return {
         singleList,
         singerList,
         specialList,
-        playlist
+        playlist,
+        mvList,
+        radioList,
+        djprogramsList,
+        userList
     }
 }
 

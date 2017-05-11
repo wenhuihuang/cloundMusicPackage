@@ -1,0 +1,42 @@
+@import "../../styles/function";
+.search-list-special{
+  display: flex;
+  align-items:center;
+  padding: px2rem(6) 0 px2rem(6) px2rem(8);
+  .search-special-img{
+    width:px2rem(60);
+    height:px2rem(60);
+    margin: 0 px2rem(8) 0 0;
+    img{
+      display: block;
+      width:100%;
+      height:100%;
+    }
+  }
+  .search-special-right{
+    flex: 1.0;
+    display: flex;
+    flex-direction:column;
+    height:px2rem(60);
+    align-items:center;
+    border-bottom: px2rem(1) solid #ccc;
+    min-width:0;
+    .search-special-name{
+      display: flex;
+      align-items:center;
+      flex:1.0;
+      width:100%;
+      padding:0 px2rem(8);
+      font-size:px2rem(16);
+    }
+    .search-special-singer{
+      display: flex;
+      align-items: center;
+      flex:1.0;
+      width:100%;
+      font-size:px2rem(13);
+      padding:0 px2rem(8);
+    }
+  }
+
+}

@@ -105,7 +105,13 @@ const receiveSearchList = (state = {}, action) => {
                 singleList : action.singleList,
                 singerList : action.singerList,
                 specialList : action.specialList,
-                playlist : action.playlist
+                playlist : action.playlist,
+                userList: action.userList,
+                mvList: action.mvList,
+                lyricList: action.lyricList,
+                radioList: action.radioList,
+                djprogramsList: action.djprogramsList,
+                userList: action.userList
             }
             break;
         default:

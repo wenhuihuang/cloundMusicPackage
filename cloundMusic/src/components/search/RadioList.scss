@@ -1,0 +1,41 @@
+@import "../../styles/function";
+.search-list-playlist{
+  display: flex;
+  align-items:center;
+  padding: px2rem(6) 0 px2rem(6) px2rem(8);
+  .search-playlist-img{
+    width:px2rem(60);
+    height:px2rem(60);
+    margin: 0 px2rem(8) 0 0;
+    img{
+      display: block;
+      width:100%;
+      height:100%;
+    }
+  }
+  .search-playlist-right{
+    flex: 1.0;
+    display: flex;
+    flex-direction:column;
+    height:px2rem(60);
+    align-items:center;
+    border-bottom: px2rem(1) solid #ccc;
+    .search-playlist-name{
+      display: flex;
+      align-items:center;
+      flex:1.0;
+      width:100%;
+      padding:0 px2rem(8);
+      font-size:px2rem(16);
+    }
+    .search-playlist-singer{
+      display: flex;
+      align-items: center;
+      flex:1.0;
+      width:100%;
+      font-size:px2rem(13);
+      padding:0 px2rem(8);
+    }
+  }
+
+}

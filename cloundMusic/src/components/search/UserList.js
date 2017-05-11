@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 
-import  './Playlist.scss'
+import  './UserList.scss'
 
-class Playlist extends Component {
+class UserList extends Component {
 
 
     render() {
@@ -13,16 +13,14 @@ class Playlist extends Component {
                     list.map((item,i)=>
                         <div key={i} className="search-list-special">
                             <div className="search-special-img">
-                                <img src={item.coverImgUrl} />
+                                <img src={item.avatarUrl} />
                             </div>
                             <div className="search-special-right">
                                 <div className="search-special-name">
-                                    <span dangerouslySetInnerHTML={{__html:item.name}}></span>
+                                    <span dangerouslySetInnerHTML={{__html:item.nickname}}></span>
                                 </div>
                                 <div className="search-special-singer">
-                                    <span>{item.trackCount+"首"}</span>
-                                    <span>{"by "+item.creator.nickname}</span>
-                                    <span>{"，播放"+item.playCount+"万次"}</span>
+                                    <span className="public-ellipsis">{item.signature}</span>
                                 </div>
                             </div>
                         </div>
@@ -33,4 +31,4 @@ class Playlist extends Component {
     }
 }
 
-export default Playlist
+export default UserList

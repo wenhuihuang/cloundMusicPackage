@@ -49,7 +49,13 @@ export const receiveSearchList = obj =>({
     singleList: obj.singleList,
     singerList: obj.singerList,
     specialList: obj.specialList,
-    playlist: obj.playlist
+    playlist: obj.playlist,
+    userList: obj.userList,
+    mvList: obj.mvList,
+    lyricList: obj.lyricList,
+    radioList: obj.radioList,
+    djprogramsList: obj.djprogramsList,
+    userList: obj.userList
 
 })
 
@@ -110,17 +116,26 @@ export const search = searchObj => dispatch => {
                             obj.playlist = json.result.playlists
                             break;
                         case 1002:
-                            list = json.result.userprofiles;
+                            eachSearchWord(me,json.result.userprofiles,searchObj.searchWord);
+                            obj.userList = json.result.userprofiles;
                             break;
                         case 1004:
-                            list = json.result.mvs;
+                            eachSearchWord(me,json.result.mvs,searchObj.searchWord);
+                            obj.mvList = json.result.mvs;
                             break;
                         case 1006:
-                            list = json.result.songs;
+                            eachSearchWord(me,json.result.songs,searchObj.searchWord);
+                            obj.lyricList = json.result.songs;
                             break;
                         case 1009:
-                            list = json.result.djRadios; //主播电台
-                            //djprograms //单期节目
+                            eachSearchWord(me,json.result.djRadios,searchObj.searchWord);
+                            eachSearchWord(me,json.result.djprograms,searchObj.searchWord);
+                            obj.radioList = json.result.djRadios; //主播电台
+                            obj.djprogramsList=json.result.djprograms; //djprograms //单期节目
+                            break;
+                        case 1002:
+                            eachSearchWord(me,json.result.djRadios,userprofiles.searchWord);
+                            obj.userList = json.result.userprofiles; //用户列表
                             break;
                         default:
 

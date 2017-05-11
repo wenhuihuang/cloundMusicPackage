@@ -71,6 +71,15 @@ $header_height:2.8rem;
           height:px2rem(40);
           line-height:px2rem(40);
           display: inline-block;
+          a{
+            text-decoration: none;
+            color:#000;
+          }
+          &-active{
+            border-bottom:px2rem(3) solid red;
+            color:red;
+          }
+
         }
       }
     }
@@ -83,6 +92,7 @@ $header_height:2.8rem;
       border-bottom:px2rem(1) solid #ccc;
       align-items:center;
       padding:px2rem(12) px2rem(10);
+
       .search-list-left{
         flex:1.0;
         .song-name{

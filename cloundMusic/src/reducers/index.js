@@ -8,7 +8,8 @@ import {
     RECEIVE_PLAYLIST_DETAIL,
     CHANGE_IS_SHOW_PLAY_VIEW,
     CHANGE_IS_SHOW_LEFT_MENU,
-    RECEIVE_SEARCH_LSIT
+    RECEIVE_SEARCH_LSIT,
+    SEARCH_RESULT
 } from '../constants/ActionTypes';
 
 import  {changeCurrentPlay}  from './playController'
@@ -89,6 +90,7 @@ const changeIsShowLeftMenu = (state = {isShowLeftMenu: false}, action) => {
             return {
                 isShowLeftMenu: action.isShowLeftMenu
             }
+            break;
         default:
             return state
     }
@@ -100,12 +102,18 @@ const receiveSearchList = (state = {}, action) => {
         case RECEIVE_SEARCH_LSIT:
             return {
                 ...state,
-                list : action.list
+                singleList : action.singleList,
+                singerList : action.singerList,
+                specialList : action.specialList,
+                playlist : action.playlist
             }
+            break;
         default:
             return state
     }
 }
+
+
 
 const rootReducer = combineReducers({
     receiveMusics, //歌曲列表信息 全局对象state上面的receiveMusices

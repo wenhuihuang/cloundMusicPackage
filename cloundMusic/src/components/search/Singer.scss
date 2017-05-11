@@ -1,0 +1,35 @@
+@import "../../styles/function";
+.search-list-singer{
+  display: flex;
+  align-items:center;
+  padding: px2rem(6) 0 px2rem(6) px2rem(8);
+  .search-singer-img{
+    width:px2rem(60);
+    height:px2rem(60);
+    margin: 0 px2rem(8) 0 0;
+    img{
+      display: block;
+      width:100%;
+      height:100%;
+    }
+  }
+  .search-singer-right{
+    flex: 1.0;
+    display: flex;
+    height:px2rem(60);
+    align-items:center;
+    border-bottom: px2rem(1) solid #ccc;
+    .search-singer-name{
+      flex:1.0;
+      padding:0 px2rem(8);
+    }
+    .search-singer-account{
+      font-size:px2rem(12);
+      width:px2rem(80);
+      .account-icon{
+        color:red;
+      }
+    }
+  }
+
+}

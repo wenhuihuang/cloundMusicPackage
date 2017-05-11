@@ -46,7 +46,11 @@ export const changeIsShowLeftMenu = isShowLeftMenu => ({
  */
 export const receiveSearchList = obj =>({
     type: types.RECEIVE_SEARCH_LSIT,
-    list : obj.list
+    singleList: obj.singleList,
+    singerList: obj.singerList,
+    specialList: obj.specialList,
+    playlist: obj.playlist
+
 })
 
 /**
@@ -54,6 +58,7 @@ export const receiveSearchList = obj =>({
  * @param searchObj
  */
 export const search = searchObj => dispatch => {
+    const me = this;
     new SearchHistory().setSearchHistory(searchObj.searchWord)
 
     let data = {
@@ -68,7 +73,7 @@ export const search = searchObj => dispatch => {
     for (var k in data) {
         dataArray.push(k + '=' + data[k])
     }
-
+    var obj = {};
     let url = '/api/search/get'
     return fetch(url, {
         method: 'POST',
@@ -83,42 +88,76 @@ export const search = searchObj => dispatch => {
         .then(
             json => {
                 //设置当前offset
-               // json.offset = offset
+                // json.offset = offset
                 if (json.code === 200) {
                     let list;
                     //搜索单曲(1)，歌手(100)，专辑(10)，歌单(1000)，用户(1002) MV(1004) 歌词(1006) 主播电台(1009) 用户(1002)
-                    switch (searchObj.type){
+                    switch (searchObj.type) {
                         case 1:
-                            list = json.result.songs;
+                            eachSearchWord.call(me,json.result.songs,searchObj.searchWord);
+                            obj.singleList = json.result.songs;
                             break;
                         case 100:
-                            list = json.result.artists;
+                            eachSearchWord.call(me,json.result.artists,searchObj.searchWord);
+                            obj.singerList = json.result.artists;
                             break
                         case 10:
-                            list=json.result.albums;
+                            eachSearchWord.call(me,json.result.albums,searchObj.searchWord);
+                            obj.specialList = json.result.albums;
+                            break;
+                        case 1000:
+                            eachSearchWord(me,json.result.playlists,searchObj.searchWord);
+                            obj.playlist = json.result.playlists
                             break;
                         case 1002:
-                            list=json.result.userprofiles;
+                            list = json.result.userprofiles;
                             break;
                         case 1004:
-                            list=json.result.mvs;
+                            list = json.result.mvs;
                             break;
                         case 1006:
-                            list=json.result.songs;
+                            list = json.result.songs;
                             break;
                         case 1009:
-                            
+                            list = json.result.djRadios; //主播电台
+                            //djprograms //单期节目
+                            break;
                         default:
 
                     }
-                    var obj = {
-                        list:list
-                    }
+
                     return dispatch(receiveSearchList(obj))
                 }
             }
         )
 }
+
+const eachSearchWord = (obj,searchWord) => {
+
+    if(Object.prototype.toString.call(obj) == '[object Object]') {
+
+        for (let k in obj) {
+            if (Object.prototype.toString.call(obj[k]) == "[object String]" && obj[k].indexOf(searchWord) > -1) {
+                let re = new RegExp(searchWord, 'gim')
+                obj[k] = obj[k].replace(re, '<span style="color:red">' + searchWord + '</span>')
+            } else if (Object.prototype.toString.call(obj[k]) == '[object Array]' ) {
+                for (let i = 0; i < obj[k].length; i++) {
+                    eachSearchWord(obj[k][i], searchWord)
+                }
+
+            }else if(Object.prototype.toString.call(obj[k]) == "[object Object]"){
+                eachSearchWord(obj[k], searchWord)
+            }
+        }
+
+    } else if (Object.prototype.toString.call(obj) == '[object Array]') {
+        for (let i = 0; i < obj.length; i++) {
+            eachSearchWord(obj[i], searchWord)
+        }
+
+    }
+}
+
 
 export const receiveToken = token => ({
     type: types.RECEIVE_TOKEN,

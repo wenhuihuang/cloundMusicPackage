@@ -11,6 +11,8 @@ import LoginPage from './components/login/LoginPage'
 import SearchPage from './components/search/SearchPage'
 
 
+
+
 export default
     <Route path='/' component={App} >
         <IndexRoute component={PlaylistPage}/> {/*默认首页跳到某个组件*/}
@@ -18,5 +20,5 @@ export default
         <Route path="playlist/list" component={PlaylistPage} />
         <Route path="playViewPage/show" component={PlayViewPage} />
         <Route path="login" component={LoginPage} />
-        <Route path="search" component={SearchPage} />
+        <Route path="/search" component={SearchPage} />
     </Route>

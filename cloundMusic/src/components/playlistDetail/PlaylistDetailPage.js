@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchPlaylistDetail } from '../../actions/index'
-import { fetchCurrentPlay } from '../../actions/playController'
+import { changeCurrentPlay } from '../../actions/playController'
 import ReactDOM from 'react-dom'
 import PlaylistDetailPageStyle from './playlistDetailPage.scss'
 
@@ -27,8 +27,13 @@ class PlaylistDetailPage extends Component{
     }
 
     handleClick(mp3Url,music_id){
-        const { dispatch } = this.props
-        dispatch(fetchCurrentPlay(music_id))
+        const { dispatch,detail } = this.props
+        let playObj = {
+                isPlay:true,
+                currentPlayId:music_id,
+                playlist:detail.tracks
+            }
+        dispatch(changeCurrentPlay(playObj))
 
     }
 
@@ -111,7 +116,8 @@ const mapStateToProps = state => {
     const { receivePlaylistDetail, changeCurrentPlay } = state
     return{
         detail : receivePlaylistDetail.detail,
-        currentPlay : changeCurrentPlay.currentPlay
+        currentPlay : changeCurrentPlay.currentPlay,
+        playlist: changeCurrentPlay.playlist
     }
 }
 

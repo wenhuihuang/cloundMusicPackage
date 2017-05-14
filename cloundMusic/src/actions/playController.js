@@ -1,10 +1,16 @@
 import * as types from '../constants/ActionTypes'
 
-export const changeCurrentPlay = (currentPlay,isPlay=false) => ({
+export const changeCurrentPlay = (playObject) => ({
     type : types.CHANGE_CURRENT_PLAY,
-    isPlay:isPlay,
-    currentPlay
+    isPlay:playObject.isPlay,
+    playlist:playObject.playlist,
+    currentPlayId:playObject.currentPlayId,
+    currentPlay:playObject.currentPlay,
+    currentTime:playObject.currentTime,
+    duration:playObject.duration
 })
+
+
 
 export const fetchCurrentPlay = (music_id)  => dispatch =>{
     return fetch('/api/song/detail/'+music_id)

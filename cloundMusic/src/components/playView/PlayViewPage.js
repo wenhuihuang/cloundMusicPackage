@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  utils  from '../../utils/utils'
 import PlayViewPageStyle from './PlayViewPage.scss'
-import { changeCurrentPlay } from '../../actions/playController'
+import { changeCurrentPlay as changeCurrentPlayFn } from '../../actions/playController'
 import { changeIsShowPlayView } from '../../actions/index'
 
 class PlayViewPage extends Component{
@@ -19,13 +19,17 @@ class PlayViewPage extends Component{
     }
 
     switchPlay(){
-        const { currentPlay, isPlay, dispatch } = this.props
-        if(!isPlay){
+        const { changeCurrentPlay, dispatch } = this.props
+        if(!changeCurrentPlay.isPlay){
             this.play()
         }else{
             this.pause()
         }
-        dispatch(changeCurrentPlay(currentPlay,!isPlay))
+        let playObj = {
+            ...changeCurrentPlay,
+            isPlay:!changeCurrentPlay.isPlay
+        }
+        dispatch(changeCurrentPlayFn(playObj))
     }
 
     play(){
@@ -44,7 +48,9 @@ class PlayViewPage extends Component{
     }
 
     render(){
-        const { isPlay, isShowPlayView } = this.props
+        const { changeCurrentPlay ,isShowPlayView} = this.props
+        const currentPlay = changeCurrentPlay.currentPlay;
+        const isPlay = changeCurrentPlay.isPlay;
         return(
             <div className={ isShowPlayView ? "playViewShow" : "playViewHide" }>
                 {
@@ -91,8 +97,14 @@ class PlayViewPage extends Component{
                                     <span>00:00</span>
                                 </div>
                                 <div className="item progress-wrapper">
-                                    <span className="progress-icon"></span>
-                                    <div className="progress-bar"></div>
+                                    {/*<span className="progress-icon"></span>*/}
+                                    {/*<div className="progress-bar"></div>*/}
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                                        <line x1="0" y1="0" x2="1382" y2="0" stroke="#D1D3D7"  stroke-width="4"/>
+                                        <line id="line" x1="0" y1="0" x2="1382" y2="0" stroke="rgb(255,0,0)" stroke-width="4" stroke-dasharray="0 1382" />
+                                    </svg>
+
                                 </div>
                                 <div className="item all-time">
                                     <span>00:00</span>

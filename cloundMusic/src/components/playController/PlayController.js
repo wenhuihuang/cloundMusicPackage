@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-import { changeCurrentPlay } from '../../actions/playController'
+import { changeCurrentPlay as changeCurrentPlayFn } from '../../actions/playController'
 import { changeIsShowPlayView } from '../../actions/index'
 import { Link } from 'react-router'
 
@@ -8,22 +8,26 @@ import PlayControllerStyle from './PlayController.scss'
 class PlayController extends Component{
 
     componentDidUpdate () {
-        const { currentPlay, isPlay } = this.props
-        if(isPlay){
+        const { changeCurrentPlay } = this.props
+        if(changeCurrentPlay.isPlay){
             let audio = document.getElementById('audio')
-            audio.src=currentPlay.mp3Url
+           // audio.src=changeCurrentPlay.currentPlay.mp3Url
             audio.play()
         }
     }
 
     switchPlay(){
-        const { currentPlay, isPlay, dispatch } = this.props
-        if(!isPlay){
+        const { changeCurrentPlay, dispatch } = this.props
+        if(!changeCurrentPlay.isPlay){
             this.play()
         }else{
             this.pause()
         }
-        dispatch(changeCurrentPlay(currentPlay,!isPlay))
+        let playObj = {
+            ...changeCurrentPlay,
+            isPlay:!changeCurrentPlay.isPlay
+        }
+        dispatch(changeCurrentPlayFn(playObj))
     }
 
     play(){
@@ -41,8 +45,30 @@ class PlayController extends Component{
         dispatch(changeIsShowPlayView(true))
     }
 
+    onTimeUpdate(){
+        const { changeCurrentPlay, dispatch } = this.props;
+        const audio = document.getElementById('audio');
+        let playObj = {
+            ...changeCurrentPlay,
+            currentTime:audio.currentTime,
+            duration:audio.duration
+        }
+        dispatch(changeCurrentPlayFn(playObj))
+        let progress = audio.currentTime * 100 / audio.duration
+        this.setSvg(progress)
+    }
+
+    setSvg(progress){
+        const circle = document.querySelector('#circle-progress');
+        if (circle) {
+            let percent = progress / 100, perimeter = Math.PI * 2 * 160;
+            circle.setAttribute('stroke-dasharray', perimeter * percent + " " + perimeter * (1- percent));
+        }
+    }
+
     render(){
-        const {currentPlay, isPlay} = this.props
+        const {changeCurrentPlay} = this.props
+        const currentPlay = changeCurrentPlay.currentPlay
         return (
             <div className="play-controller-wrap" >
                 {
@@ -58,15 +84,25 @@ class PlayController extends Component{
                         </a>
 
                         <div className="play-btn" onClick={this.switchPlay.bind(this)}>
+
+                            <svg width="42" height="42" viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="220" cy="220" r="160" strokeWidth="4" stroke="#D1D3D7" fill="none"></circle>
+                                <circle id="circle-progress" cx="220" cy="220" r="160" strokeWidth="4" stroke="#00A5E0" fill="none" transform="matrix(0,-1,1,0,0,440)" strokeDasharray="0 1069"></circle>
+                            </svg>
                             {
-                                isPlay ? (<span className="icon iconfont">&#xe696;</span>) : (<span className="icon iconfont ">&#xe608;</span>)
+                                changeCurrentPlay.isPlay ? (<span className="icon iconfont">&#xe654;</span>) : (<span className="icon iconfont ">&#xe671;</span>)
                             }
+
                         </div>
+
+
                         <div className="play-list"><span className="icon iconfont">&#xe600;</span></div>
+                        <audio onTimeUpdate={this.onTimeUpdate.bind(this)} id="audio" src={currentPlay.mp3Url} >您的浏览器不支持 audio 标签。</audio>
                     </div>
+
                 }
 
-                <audio id="audio" src="http://m2.music.126.net/TzB6EbAP_0q6HsIVG1Du3w==/1097312604528704.mp3" >您的浏览器不支持 audio 标签。</audio>
+
 
 
             </div>

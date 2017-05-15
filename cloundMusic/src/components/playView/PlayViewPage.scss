@@ -89,6 +89,7 @@
       justify-content: center;
       top:7rem;
       &-active{
+        @extend .disk-view-content;
         animation:diskRotate 7.5s linear infinite;
       }
       .disk-content-background{

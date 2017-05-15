@@ -2,9 +2,23 @@ import {
     CHANGE_CURRENT_PLAY
 } from '../constants/ActionTypes'
 
-export const changeCurrentPlay = (state={ isPlay:false }, action) => {
+const getPlaylist = () => {
+    JSON.parse(window.localStorage.setItem('playlist'))
+}
+
+const getCurrentPlay = () =>{
+
+}
+
+
+
+export const changeCurrentPlay = (state={ isPlay:false,currentTime:0,currentTimeStr:'00:00',duration:0,durationStr:'00:00' }, action) => {
     switch (action.type) {
         case CHANGE_CURRENT_PLAY:
+            if(action.playlist &&　action.playlist.length>0){
+                window.localStorage.setItem('playlist',JSON.stringify(action.playlist))
+            }
+            console.log(action.duration/60 + ":" + Math.round(((action.duration/1000/60)-parseInt(action.duration/1000/60))*60))
             return{
                 ...state,
                 isPlay : action.isPlay,
@@ -21,9 +35,22 @@ export const changeCurrentPlay = (state={ isPlay:false }, action) => {
                 )(action.currentPlayId,action.playlist),
                 playlist:action.playlist,
                 currentTime:action.currentTime,
-                duration:action.duration
+                currentTimeStr:parseTime(action.currentTime),
+                duration:action.duration,
+                durationStr:parseTime(action.duration)
             }
         default:
             return state
     }
+}
+
+const parseTime = (t) => {
+    let arr = [];
+    const m = parseInt(t/60),
+        mStr = ("00"+m).substring((""+m).length),
+        s = Math.round(((t/60)-parseInt(t/60))*60),
+        sStr = ("00"+s).substring((""+s).length);
+    arr.push(mStr);
+    arr.push(sStr);
+    return arr.join(':')
 }

@@ -7,7 +7,9 @@ export const changeCurrentPlay = (playObject) => ({
     currentPlayId:playObject.currentPlayId,
     currentPlay:playObject.currentPlay,
     currentTime:playObject.currentTime,
-    duration:playObject.duration
+    currentTimeStr:playObject.currentTimeStr,
+    duration:playObject.duration,
+    durationStr:playObject.durationStr
 })
 
 

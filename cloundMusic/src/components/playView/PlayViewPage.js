@@ -7,6 +7,12 @@ import { changeIsShowPlayView } from '../../actions/index'
 
 class PlayViewPage extends Component{
 
+    constructor(props){
+        super(props)
+        this.adjustProgress = this.adjustProgress.bind(this)
+        //this.switchMusic=this.switchMusic.bind(this)
+    }
+
     componentDidUpdate(){
         const { isShowPlayView } = this.props
         if(isShowPlayView){
@@ -47,10 +53,58 @@ class PlayViewPage extends Component{
         dispatch(changeIsShowPlayView(false))
     }
 
+    /**
+     *
+     * -1：上一曲，1下一曲
+     */
+    switchMusic(flag){
+        const {changeCurrentPlay,dispatch} = this.props;
+        const currentPlayId = changeCurrentPlay.currentPlayId;
+        const playlist = changeCurrentPlay.playlist || JSON.parse(window.localStorage.getItem('playlist'))
+        for(var i = 0; i < playlist.length;i++){
+            if(currentPlayId == playlist[i].id){
+                let playObj = {
+                    ...changeCurrentPlay,
+                    currentPlay:playlist[i+parseInt(flag)],
+                    currentPlayId:playlist[i+parseInt(flag)].id
+                }
+                dispatch(changeCurrentPlayFn(playObj))
+                break;
+            }
+        }
+
+    }
+
+    /**
+     *  调节进度
+     */
+    adjustProgress(e){
+        const { changeCurrentPlay } = this.props;
+        let audio = document.querySelector('#audio');
+        const duration = changeCurrentPlay.duration;
+        const svg = document.querySelector('.progress-wrapper'),
+            left = svg.offsetLeft,
+            svg_width = parseInt(getComputedStyle(svg).width),
+            dot = e.pageX - left,
+            time = dot*duration/svg_width;
+            audio.currentTime=time;
+    }
+
+    eachArray(arr) {
+        let name = []
+        if(arr.length<0)return;
+        arr.forEach(function (item, i) {
+            name.push(item.name)
+        })
+        return name.join('/');
+    }
+
     render(){
         const { changeCurrentPlay ,isShowPlayView} = this.props
         const currentPlay = changeCurrentPlay.currentPlay;
         const isPlay = changeCurrentPlay.isPlay;
+        let currentTimeStr = changeCurrentPlay.currentTimeStr,
+            durationStr = changeCurrentPlay.durationStr;
         return(
             <div className={ isShowPlayView ? "playViewShow" : "playViewHide" }>
                 {
@@ -61,7 +115,11 @@ class PlayViewPage extends Component{
                                 <span className="iconfont icon">&#xe675;</span>
                             </div>
                             <div className="header-title">
-                                哈哈
+                                <p>{currentPlay!=undefined&&currentPlay!=null&&currentPlay.name}</p>
+                                <p>{
+                                    currentPlay!=undefined&&currentPlay!=null&&
+                                    this.eachArray(currentPlay.artists)
+                                }</p>
                             </div>
                             <div className="header-right">
 
@@ -71,7 +129,7 @@ class PlayViewPage extends Component{
                         {/*碟区*/}
                         <div className="disk-view-content-wrapper">
                             <div className={isPlay ? 'play-controller-icon-rotate' : 'play-controller-icon'}></div>
-                            <div className="disk-view-content disk-view-content-active">
+                            <div className={isPlay ? 'disk-view-content-active' : 'disk-view-content'} >
                                 <img src="http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg" alt=""/>
                                 <div className="disk-content-background"></div>
                             </div>
@@ -94,20 +152,28 @@ class PlayViewPage extends Component{
                             </div>
                             <div className="controller-middle">
                                 <div className="item used-time">
-                                    <span>00:00</span>
+                                    <span>
+                                        {
+                                            currentTimeStr
+                                        }
+                                    </span>
                                 </div>
                                 <div className="item progress-wrapper">
                                     {/*<span className="progress-icon"></span>*/}
                                     {/*<div className="progress-bar"></div>*/}
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                                        <line x1="0" y1="0" x2="1382" y2="0" stroke="#D1D3D7"  stroke-width="4"/>
-                                        <line id="line" x1="0" y1="0" x2="1382" y2="0" stroke="rgb(255,0,0)" stroke-width="4" stroke-dasharray="0 1382" />
+                                    <svg id="play-view-svg" width="100%" height="24px" xmlns="http://www.w3.org/2000/svg" version="1.1" onClick={this.adjustProgress}>
+                                        <line x1="0" y1="12" x2="100%" y2="12" stroke="#D1D3D7"  strokeWidth="5"/>
+                                        <line id="line" x1="0" y1="12" x2="100%" y2="12" stroke="rgb(255,0,0)" strokeWidth="5" strokeDasharray="0 100%" />
                                     </svg>
 
                                 </div>
                                 <div className="item all-time">
-                                    <span>00:00</span>
+                                    <span>
+                                        {
+                                            durationStr
+                                        }
+                                    </span>
                                 </div>
                             </div>
                             <div className="controller-bottom">
@@ -115,7 +181,7 @@ class PlayViewPage extends Component{
                                     <span className="icon iconfont">&#xe63f;</span>
                                 </div>
                                 <div className="item">
-                                    <span className="icon iconfont">&#xe6c9;</span>
+                                    <span className="icon iconfont" onClick={this.switchMusic.bind(this,-1)}>&#xe6c9;</span>
                                 </div>
                                 <div className="item">
 
@@ -126,7 +192,7 @@ class PlayViewPage extends Component{
                                     {/*<span className="icon iconfont"  onClick={this.switchPlay.bind(this)}>&#xe601;</span>*/}
                                 </div>
                                 <div className="item">
-                                    <span className="icon iconfont">&#xe6c8;</span>
+                                    <span className="icon iconfont" onClick={this.switchMusic.bind(this,1)}>&#xe6c8;</span>
                                 </div>
                                 <div className="item">
                                     <span className="icon iconfont">&#xe92a;</span>

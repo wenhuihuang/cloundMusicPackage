@@ -18,7 +18,6 @@ export const changeCurrentPlay = (state={ isPlay:false,currentTime:0,currentTime
             if(action.playlist &&　action.playlist.length>0){
                 window.localStorage.setItem('playlist',JSON.stringify(action.playlist))
             }
-            console.log(action.duration/60 + ":" + Math.round(((action.duration/1000/60)-parseInt(action.duration/1000/60))*60))
             return{
                 ...state,
                 isPlay : action.isPlay,

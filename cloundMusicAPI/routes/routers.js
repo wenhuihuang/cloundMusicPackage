@@ -171,6 +171,27 @@ router.post('/weapi/login/cellphone', function (req, res) {
         // }
     })
 
+});
+
+/**
+ * 获取歌词
+ */
+router.get('/song/lyric/:music_id',function(req,res){
+    var music_id = req.params.music_id;
+    var options = {
+        url : "http://music.163.com/api/song/lyric?os=osx&id=" + music_id.trim() + "&lv=-1&kv=-1&tv=-1"
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var info = JSON.parse(body);
+            //console.log(info)
+            res.json(info);
+
+        }
+    }
+
+    request(options, callback);
 })
 
 module.exports = router;

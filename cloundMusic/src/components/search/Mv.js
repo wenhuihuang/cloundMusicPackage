@@ -38,11 +38,9 @@ class Mv extends Component{
                                     </div>
                                     <div className="list-info">
                                         <h3 className="list-name">{item.name}</h3>
-                                        <div>{
-
-                                            this.eachArray(item.artists)
-
-                                        }</div>
+                                        <div>
+                                            <span dangerouslySetInnerHTML={{__html:this.eachArray(item.artists)}}></span>
+                                        </div>
                                     </div>
                                 </Link>
                             </li>

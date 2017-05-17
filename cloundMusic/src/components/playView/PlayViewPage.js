@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import  utils  from '../../utils/utils'
 import PlayViewPageStyle from './PlayViewPage.scss'
 import { changeCurrentPlay as changeCurrentPlayFn } from '../../actions/playController'
-import { changeIsShowPlayView } from '../../actions/index'
+import { changeIsShowPlayView,switchLyric as switchLyricFn } from '../../actions/index'
 
 class PlayViewPage extends Component{
 
@@ -99,16 +99,33 @@ class PlayViewPage extends Component{
         return name.join('/');
     }
 
+    /**
+     * 歌词 图片切换
+     */
+    switchView(){
+        const { dispatch,changeCurrentPlay,switchLyric } = this.props;
+        const currentPlayId = changeCurrentPlay.currentPlayId;
+        const showType = switchLyric.showType;
+        let obj = {
+            showType:showType,
+            music_id:currentPlayId
+        };
+        dispatch(switchLyricFn(obj))
+    }
+
     render(){
-        const { changeCurrentPlay ,isShowPlayView} = this.props
+        const { changeCurrentPlay ,isShowPlayView,switchLyric,updateCurrentLyric} = this.props
         const currentPlay = changeCurrentPlay.currentPlay;
-        const isPlay = changeCurrentPlay.isPlay;
+        const isPlay = changeCurrentPlay.isPlay,
+            currentTime = changeCurrentPlay.currentTime || 0;
         let currentTimeStr = changeCurrentPlay.currentTimeStr,
             durationStr = changeCurrentPlay.durationStr;
+
+
         return(
             <div className={ isShowPlayView ? "playViewShow" : "playViewHide" }>
                 {
-                    //isShowPlayView == true &&
+
                     <div className="play-view">
                         <div className="header">
                             <div className="header-back" onClick={this.back.bind(this)}>
@@ -127,12 +144,26 @@ class PlayViewPage extends Component{
                         </div>
                         <div className="play-view-bg"  style={utils.setStyle({background:"url(http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg) no-repeat left top"})}></div>
                         {/*碟区*/}
-                        <div className="disk-view-content-wrapper">
-                            <div className={isPlay ? 'play-controller-icon-rotate' : 'play-controller-icon'}></div>
-                            <div className={isPlay ? 'disk-view-content-active' : 'disk-view-content'} >
-                                <img src="http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg" alt=""/>
-                                <div className="disk-content-background"></div>
-                            </div>
+                        <div className="disk-view-content-wrapper" onClick={this.switchView.bind(this)}>
+                            {
+                                switchLyric.showType ?
+                                    <div className="lyric-wrapper">
+                                        {
+                                            updateCurrentLyric.currentLyric.map((item,i)=>
+                                                <p key={i} className={item.time==updateCurrentLyric.currentLyricTime  ?"item currentLyric":"item"}>{item.text}</p>
+                                            )
+                                        }
+                                    </div>
+                                    :
+                                    <div>
+                                        <div className={isPlay ? 'play-controller-icon-rotate' : 'play-controller-icon'}></div>
+                                        <div className={isPlay ? 'disk-view-content-active' : 'disk-view-content'} >
+                                            <img src="http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg" alt=""/>
+                                            <div className="disk-content-background"></div>
+                                        </div>
+                                    </div>
+                            }
+
                         </div>
                         {/*控控制区*/}
                         <div className="play-view-controller">

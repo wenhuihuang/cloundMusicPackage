@@ -9,7 +9,8 @@ import {
     CHANGE_IS_SHOW_PLAY_VIEW,
     CHANGE_IS_SHOW_LEFT_MENU,
     RECEIVE_SEARCH_LSIT,
-    SEARCH_RESULT
+    VIEW_LYRIC,
+    UPDATE_CURRENT_LYRIC
 } from '../constants/ActionTypes';
 
 import  {changeCurrentPlay}  from './playController'
@@ -119,6 +120,33 @@ const receiveSearchList = (state = {}, action) => {
     }
 }
 
+const switchLyric = (state={showType:0},action) => {
+    switch (action.type){
+        case VIEW_LYRIC:
+            return {
+                ...state,
+                showType:action.showType,
+                lyric:action.lyric || state.lyric
+            }
+            break;
+        default:
+            return state;
+    }
+}
+
+const updateCurrentLyric = (state={},action) => {
+    switch (action.type){
+        case UPDATE_CURRENT_LYRIC:
+            return {
+                ...state,
+            currentLyric:action.currentLyric || state.currentLyric,
+            currentLyricTime:action.currentLyricTime || state.currentLyricTime
+            }
+            break;
+        default:
+            return state;
+    }
+}
 
 
 const rootReducer = combineReducers({
@@ -129,6 +157,8 @@ const rootReducer = combineReducers({
     changeCurrentPlay,
     changeIsShowLeftMenu,
     receiveSearchList,
+    switchLyric,
+    updateCurrentLyric,
     routing
 })
 

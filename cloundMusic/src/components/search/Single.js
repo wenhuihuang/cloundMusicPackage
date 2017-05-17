@@ -22,12 +22,8 @@ class Single extends Component {
                             <div className="search-list-left">
                                 <p className="song-name" dangerouslySetInnerHTML={{__html: item.name}}></p>
                                 <p className="song-info">
-                                        <span>
-                                            {
+                                        <span dangerouslySetInnerHTML={{__html: this.eachArray(item.artists)}}>
 
-                                                this.eachArray(item.artists)
-
-                                            }
                                         </span>
                                     -
                                     <span dangerouslySetInnerHTML={{__html: item.album.name}}></span>

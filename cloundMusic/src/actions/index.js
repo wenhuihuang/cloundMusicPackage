@@ -173,6 +173,51 @@ const eachSearchWord = (obj,searchWord) => {
     }
 }
 
+/**
+ *
+ * @param switchInfo { type : 0, music_id:'' }
+ * type -> 0,1 0表示视图 1表示歌词
+ * music_id -> 歌曲id
+ */
+export const switchLyric = (switchInfo) => dispatch => {
+    const showType = switchInfo.showType,
+        music_id = switchInfo.music_id;
+        let obj={};
+
+    if(showType == 0){ // 视图 切换成歌词
+        obj.showType=1;
+        fetch('/api/song/lyric/'+music_id)
+            .then(
+                response => response.json()
+            )
+            .then(
+                json => {
+                    if (json.code === 200) {
+                        obj.lyric = json.lrc.lyric;
+                        console.log(obj)
+                        return dispatch(viewOrLyric(obj));
+                    }
+                }
+            )
+
+    }else if(showType == 1){ // 歌词 切换成视图
+        obj.showType=0;
+        return dispatch(viewOrLyric(obj));
+    }
+
+}
+
+export const updateCurrentLyric = (currentLyricObj) => ({
+    type:types.UPDATE_CURRENT_LYRIC,
+    currentLyric:currentLyricObj.currentLyric,
+    currentLyricTime:currentLyricObj.currentLyricTime
+})
+
+export const viewOrLyric = (obj) => ({
+    type: types.VIEW_LYRIC,
+    showType: obj.showType,
+    lyric: obj.lyric
+})
 
 export const receiveToken = token => ({
     type: types.RECEIVE_TOKEN,
@@ -292,6 +337,8 @@ export const fetchMusicesList = (classify) => (dispatch, getState) => {
 
 
 }
+
+
 
 //获取歌单详情
 export const fetchPlaylistDetail = (playlistDetail) => (dispatch, getState) => {

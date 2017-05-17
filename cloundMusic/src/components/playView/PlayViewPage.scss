@@ -119,6 +119,17 @@
         z-index: 9;
       }
     }
+    /*歌词*/
+    .lyric-wrapper{
+      .item{
+        text-align: center;
+        padding:6px 0;
+        color:rgba(255,255,255,.6);
+      }
+      .currentLyric{
+        color:#fff;
+      }
+    }
   }
   /*控制区*/
   .play-view-controller{

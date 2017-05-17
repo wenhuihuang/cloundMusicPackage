@@ -40,12 +40,12 @@ class App extends React.Component {
 
 
     render () {
-        const { children, changeCurrentPlay, dispatch, isShowPlayView, isShowLeftMenu } = this.props
+        const { children, changeCurrentPlay, dispatch, isShowPlayView, isShowLeftMenu,switchLyric,updateCurrentLyric } = this.props
         return(
             <div>
                 <Header dispatch = {dispatch}></Header>
-                <PlayController changeCurrentPlay = {changeCurrentPlay}  dispatch = {dispatch} />
-                <PlayViewPage changeCurrentPlay = {changeCurrentPlay}  dispatch = {dispatch} isShowPlayView = { isShowPlayView } />
+                <PlayController changeCurrentPlay = {changeCurrentPlay}  switchLyric={switchLyric} dispatch = {dispatch} />
+                <PlayViewPage updateCurrentLyric={updateCurrentLyric} changeCurrentPlay = {changeCurrentPlay} switchLyric={switchLyric} dispatch = {dispatch} isShowPlayView = { isShowPlayView } />
                 <LeftMenu isShow = {isShowLeftMenu} dispatch = { dispatch } />
                 {children}
             </div>
@@ -55,11 +55,13 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { changeCurrentPlay, changeIsShowPlayView, dispatch, changeIsShowLeftMenu } = state
+    const { changeCurrentPlay, changeIsShowPlayView, dispatch, changeIsShowLeftMenu,switchLyric,updateCurrentLyric } = state
     return {
         changeCurrentPlay : changeCurrentPlay,
         isShowPlayView : changeIsShowPlayView.isShowPlayView,
         isShowLeftMenu : changeIsShowLeftMenu.isShowLeftMenu,
+        switchLyric,
+        updateCurrentLyric,
         dispatch : dispatch
     }
 }

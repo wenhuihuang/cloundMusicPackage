@@ -28,11 +28,7 @@ class Special extends Component {
                                     <span dangerouslySetInnerHTML={{__html:item.name}}></span>
                                 </div>
                                 <div className="search-special-singer">
-                                    {
-
-                                        this.eachArray(item.artists)
-
-                                    }
+                                    <span dangerouslySetInnerHTML={{__html:this.eachArray(item.artists)}}></span>
                                 </div>
                             </div>
                         </div>

@@ -36,7 +36,8 @@ export const changeCurrentPlay = (state={ isPlay:false,currentTime:0,currentTime
                 currentTime:action.currentTime,
                 currentTimeStr:parseTime(action.currentTime),
                 duration:action.duration,
-                durationStr:parseTime(action.duration)
+                durationStr:parseTime(action.duration),
+                mp3Url:action.mp3Url
             }
         default:
             return state

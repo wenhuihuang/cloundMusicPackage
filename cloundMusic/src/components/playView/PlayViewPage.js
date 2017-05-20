@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  utils  from '../../utils/utils'
 import PlayViewPageStyle from './PlayViewPage.scss'
-import { changeCurrentPlay as changeCurrentPlayFn } from '../../actions/playController'
+import { changeCurrentPlay as changeCurrentPlayFn,fetchCurrentPlay } from '../../actions/playController'
 import { changeIsShowPlayView,switchLyric as switchLyricFn } from '../../actions/index'
 
 class PlayViewPage extends Component{
@@ -58,7 +58,7 @@ class PlayViewPage extends Component{
      * -1：上一曲，1下一曲
      */
     switchMusic(flag){
-        const {changeCurrentPlay,dispatch} = this.props;
+        const {changeCurrentPlay,dispatch,switchLyric} = this.props;
         const currentPlayId = changeCurrentPlay.currentPlayId;
         const playlist = changeCurrentPlay.playlist || JSON.parse(window.localStorage.getItem('playlist'))
         for(var i = 0; i < playlist.length;i++){
@@ -68,7 +68,11 @@ class PlayViewPage extends Component{
                     currentPlay:playlist[i+parseInt(flag)],
                     currentPlayId:playlist[i+parseInt(flag)].id
                 }
-                dispatch(changeCurrentPlayFn(playObj))
+                dispatch(fetchCurrentPlay(playObj))
+                let obj = {
+                    music_id:currentPlayId
+                };
+                dispatch(switchLyricFn(obj))
                 break;
             }
         }

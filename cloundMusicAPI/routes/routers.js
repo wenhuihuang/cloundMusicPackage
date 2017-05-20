@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('request')
 var fs = require('fs')
 var utils = require('../utils/utils')
+var crypto = require('../utils/Crypto');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -192,7 +193,57 @@ router.get('/song/lyric/:music_id',function(req,res){
     }
 
     request(options, callback);
-})
+});
+
+/**
+ * 获取mp3
+ */
+router.post('/song/getMp3',function(req,res){
+    var params = req.body,
+        ids = params.ids, //关键词
+        br = params.bit_rate || 320000,
+        csrf_token = params.csrf_token; //搜索类型
+    var url = 'http://music.163.com/weapi/song/enhance/player/url';
+    if(csrf_token != null && csrf_token != undefined && csrf_token != "" ){
+        url +="?csrf_token="+csrf_token;
+    }
+
+    var formData = {
+        'ids': ids,
+        'br': br
+    };
+    var encBody = crypto.aesRsaEncrypt(JSON.stringify(formData));
+    console.log(formData)
+    console.log(encBody)
+    //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
+    request.post({
+            url: url,
+            form: encBody
+        },
+        function (error, response, body) {
+            if(error){
+                res.json({
+                    code : 500,
+                    msg : '出错了！'
+                });
+            }
+            if (!error && response.statusCode == 200) {
+                console.log(body)
+                var info = JSON.parse(body);
+                res.json(info);
+            }
+
+        })
+});
+
+function encrypted_request(text) {
+    text = json.dumps(text)
+    secKey = createSecretKey(16)
+    encText = aesEncrypt(aesEncrypt(text, nonce), secKey)
+    encSecKey = rsaEncrypt(secKey, pubKey, modulus)
+    data = {'params': encText, 'encSecKey': encSecKey}
+    return data
+}
 
 module.exports = router;
 

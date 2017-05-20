@@ -100,41 +100,41 @@ export const search = searchObj => dispatch => {
                     //搜索单曲(1)，歌手(100)，专辑(10)，歌单(1000)，用户(1002) MV(1004) 歌词(1006) 主播电台(1009) 用户(1002)
                     switch (searchObj.type) {
                         case 1:
-                            eachSearchWord.call(me,json.result.songs,searchObj.searchWord);
+                            eachSearchWord.call(me, json.result.songs, searchObj.searchWord);
                             obj.singleList = json.result.songs;
                             break;
                         case 100:
-                            eachSearchWord.call(me,json.result.artists,searchObj.searchWord);
+                            eachSearchWord.call(me, json.result.artists, searchObj.searchWord);
                             obj.singerList = json.result.artists;
                             break
                         case 10:
-                            eachSearchWord.call(me,json.result.albums,searchObj.searchWord);
+                            eachSearchWord.call(me, json.result.albums, searchObj.searchWord);
                             obj.specialList = json.result.albums;
                             break;
                         case 1000:
-                            eachSearchWord(me,json.result.playlists,searchObj.searchWord);
+                            eachSearchWord(me, json.result.playlists, searchObj.searchWord);
                             obj.playlist = json.result.playlists
                             break;
                         case 1002:
-                            eachSearchWord(me,json.result.userprofiles,searchObj.searchWord);
+                            eachSearchWord(me, json.result.userprofiles, searchObj.searchWord);
                             obj.userList = json.result.userprofiles;
                             break;
                         case 1004:
-                            eachSearchWord(me,json.result.mvs,searchObj.searchWord);
+                            eachSearchWord(me, json.result.mvs, searchObj.searchWord);
                             obj.mvList = json.result.mvs;
                             break;
                         case 1006:
-                            eachSearchWord(me,json.result.songs,searchObj.searchWord);
+                            eachSearchWord(me, json.result.songs, searchObj.searchWord);
                             obj.lyricList = json.result.songs;
                             break;
                         case 1009:
-                            eachSearchWord(me,json.result.djRadios,searchObj.searchWord);
-                            eachSearchWord(me,json.result.djprograms,searchObj.searchWord);
+                            eachSearchWord(me, json.result.djRadios, searchObj.searchWord);
+                            eachSearchWord(me, json.result.djprograms, searchObj.searchWord);
                             obj.radioList = json.result.djRadios; //主播电台
-                            obj.djprogramsList=json.result.djprograms; //djprograms //单期节目
+                            obj.djprogramsList = json.result.djprograms; //djprograms //单期节目
                             break;
                         case 1002:
-                            eachSearchWord(me,json.result.djRadios,userprofiles.searchWord);
+                            eachSearchWord(me, json.result.djRadios, userprofiles.searchWord);
                             obj.userList = json.result.userprofiles; //用户列表
                             break;
                         default:
@@ -147,20 +147,20 @@ export const search = searchObj => dispatch => {
         )
 }
 
-const eachSearchWord = (obj,searchWord) => {
+const eachSearchWord = (obj, searchWord) => {
 
-    if(Object.prototype.toString.call(obj) == '[object Object]') {
+    if (Object.prototype.toString.call(obj) == '[object Object]') {
 
         for (let k in obj) {
             if (Object.prototype.toString.call(obj[k]) == "[object String]" && obj[k].indexOf(searchWord) > -1) {
                 let re = new RegExp(searchWord, 'gim')
                 obj[k] = obj[k].replace(re, '<span style="color:red">' + searchWord + '</span>')
-            } else if (Object.prototype.toString.call(obj[k]) == '[object Array]' ) {
+            } else if (Object.prototype.toString.call(obj[k]) == '[object Array]') {
                 for (let i = 0; i < obj[k].length; i++) {
                     eachSearchWord(obj[k][i], searchWord)
                 }
 
-            }else if(Object.prototype.toString.call(obj[k]) == "[object Object]"){
+            } else if (Object.prototype.toString.call(obj[k]) == "[object Object]") {
                 eachSearchWord(obj[k], searchWord)
             }
         }
@@ -182,11 +182,11 @@ const eachSearchWord = (obj,searchWord) => {
 export const switchLyric = (switchInfo) => dispatch => {
     const showType = switchInfo.showType,
         music_id = switchInfo.music_id;
-        let obj={};
+    let obj = {};
 
-    if(showType == 0){ // 视图 切换成歌词
-        obj.showType=1;
-        fetch('/api/song/lyric/'+music_id)
+    if (showType == 0) { // 视图 切换成歌词
+        obj.showType = 1;
+        fetch('/api/song/lyric/' + music_id)
             .then(
                 response => response.json()
             )
@@ -200,17 +200,17 @@ export const switchLyric = (switchInfo) => dispatch => {
                 }
             )
 
-    }else if(showType == 1){ // 歌词 切换成视图
-        obj.showType=0;
+    } else if (showType == 1) { // 歌词 切换成视图
+        obj.showType = 0;
         return dispatch(viewOrLyric(obj));
     }
 
 }
 
 export const updateCurrentLyric = (currentLyricObj) => ({
-    type:types.UPDATE_CURRENT_LYRIC,
-    currentLyric:currentLyricObj.currentLyric,
-    currentLyricTime:currentLyricObj.currentLyricTime
+    type: types.UPDATE_CURRENT_LYRIC,
+    currentLyric: currentLyricObj.currentLyric,
+    currentLyricTime: currentLyricObj.currentLyricTime
 })
 
 export const viewOrLyric = (obj) => ({
@@ -339,8 +339,35 @@ export const fetchMusicesList = (classify) => (dispatch, getState) => {
 }
 
 
-
 //获取歌单详情
 export const fetchPlaylistDetail = (playlistDetail) => (dispatch, getState) => {
     return dispatch(fetchMusicDetail(playlistDetail))
+}
+
+/**
+ *
+ * @param music_id
+ */
+export const getMp3 = (music_id) => (dispatch, getState) => {
+    let ids = [music_id]
+    let url = '/api/song/getMp3'
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: 'ids=' + JSON.stringify(ids)
+    })
+        .then(
+            response => response.json()
+        )
+        .then(
+            json => {
+                //设置当前offset
+                if (json.code === 200) {
+                    return dispatch(receiveMusics(classify, json))
+                    console.log(json)
+                }
+            }
+        )
 }

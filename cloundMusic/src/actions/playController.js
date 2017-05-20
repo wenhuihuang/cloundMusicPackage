@@ -9,21 +9,31 @@ export const changeCurrentPlay = (playObject) => ({
     currentTime:playObject.currentTime,
     currentTimeStr:playObject.currentTimeStr,
     duration:playObject.duration,
-    durationStr:playObject.durationStr
+    durationStr:playObject.durationStr,
+    mp3Url:playObject.mp3Url
 })
 
 
 
-export const fetchCurrentPlay = (music_id)  => dispatch =>{
-    return fetch('/api/song/detail/'+music_id)
+export const fetchCurrentPlay = (playObj)  => dispatch =>{
+    let ids = [playObj.currentPlayId]
+    let url = '/api/song/getMp3'
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: 'ids=' + JSON.stringify(ids)
+    })
         .then(
             response => response.json()
         )
         .then(
             json => {
-                if(json.code === 200){
-                    const songDetail = json.songs[0]
-                    return dispatch(changeCurrentPlay(songDetail,true))
+                //设置当前offset
+                if (json.code === 200) {
+                    playObj.mp3Url=json.data[0].url
+                    return dispatch(changeCurrentPlay(playObj, json))
                 }
             }
         )

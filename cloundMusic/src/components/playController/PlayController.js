@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-import { changeCurrentPlay as changeCurrentPlayFn } from '../../actions/playController'
+import { changeCurrentPlay as changeCurrentPlayFn ,fetchCurrentPlay} from '../../actions/playController'
 import { changeIsShowPlayView,updateCurrentLyric } from '../../actions/index'
 import { Link } from 'react-router'
 
@@ -105,7 +105,7 @@ class PlayController extends Component{
                     currentPlay:playlist[i+parseInt(flag)],
                     currentPlayId:playlist[i+parseInt(flag)].id
                 }
-                dispatch(changeCurrentPlayFn(playObj))
+                dispatch(fetchCurrentPlay(playObj))
                 break;
             }
         }
@@ -160,7 +160,7 @@ class PlayController extends Component{
 
 
                         <div className="play-list"><span className="icon iconfont">&#xe600;</span></div>
-                        <audio onTimeUpdate={this.onTimeUpdate.bind(this)} onEnded={this.handleEnded.bind(this,1)} id="audio" src={currentPlay.mp3Url} >您的浏览器不支持 audio 标签。</audio>
+                        <audio onTimeUpdate={this.onTimeUpdate.bind(this)} onEnded={this.handleEnded.bind(this,1)} id="audio" src={changeCurrentPlay.mp3Url} >您的浏览器不支持 audio 标签。</audio>
                     </div>
 
                 }

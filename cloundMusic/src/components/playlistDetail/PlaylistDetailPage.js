@@ -27,7 +27,6 @@ class PlaylistDetailPage extends Component{
     }
 
     handleClick(mp3Url,music_id){
-        alert(music_id)
         const { dispatch,detail } = this.props
         let playObj = {
                 isPlay:true,

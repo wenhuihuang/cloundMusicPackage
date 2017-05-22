@@ -1,4 +1,5 @@
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import {fetchLyric} from './index'
 
 export const changeCurrentPlay = (playObject) => ({
     type : types.CHANGE_CURRENT_PLAY,
@@ -30,11 +31,14 @@ export const fetchCurrentPlay = (playObj)  => dispatch =>{
         )
         .then(
             json => {
-                //设置当前offset
                 if (json.code === 200) {
                     playObj.mp3Url=json.data[0].url
-                    return dispatch(changeCurrentPlay(playObj, json))
+                     dispatch(changeCurrentPlay(playObj, json))
+                    dispatch(fetchLyric({music_id:playObj.currentPlayId}))
                 }
             }
         )
+
+
+
 }

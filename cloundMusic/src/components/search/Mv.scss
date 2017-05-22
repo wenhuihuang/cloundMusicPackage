@@ -14,8 +14,6 @@
     width: 50%;
     padding-right: .5rem;
     overflow: hidden;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     height : 16rem;
     a{
@@ -43,7 +41,6 @@
         width: 100%;
         text-align: right;
         height: 2rem;
-        background: -webkit-linear-gradient(top, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
         background: linear-gradient(top, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
       }
       .list-creator{
@@ -58,7 +55,6 @@
         display: -webkit-box;
         -webkit-box-align: end;
         line-height: 1.4rem;
-        background: -webkit-linear-gradient(bottom, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
         background: linear-gradient(bottom, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
       }
     }

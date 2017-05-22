@@ -9,7 +9,7 @@ import {
     CHANGE_IS_SHOW_PLAY_VIEW,
     CHANGE_IS_SHOW_LEFT_MENU,
     RECEIVE_SEARCH_LSIT,
-    VIEW_LYRIC,
+    RECEIVE_LYRIC,
     UPDATE_CURRENT_LYRIC
 } from '../constants/ActionTypes';
 
@@ -122,11 +122,13 @@ const receiveSearchList = (state = {}, action) => {
 
 const switchLyric = (state={showType:0},action) => {
     switch (action.type){
-        case VIEW_LYRIC:
+        case RECEIVE_LYRIC:
             return {
                 ...state,
-                showType:action.showType,
-                lyric:action.lyric || state.lyric
+                showType:action.showType || state.showType,
+                lyric:action.lyric || state.lyric,
+                currentLyric:action.currentLyric || state.currentLyric,
+                currentLyricTime: action.currentLyricTime || state.currentLyricTime
             }
             break;
         default:

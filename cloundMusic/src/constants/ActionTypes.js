@@ -7,5 +7,5 @@ export const CHANGE_IS_SHOW_PLAY_VIEW = "CHANGE_IS_SHOW_PLAY_VIEW";
 export const CHANGE_IS_SHOW_LEFT_MENU = "CHANGE_IS_SHOW_LEFT_MENU";
 export const RECEIVE_TOKEN = "RECEIVE_TOKEN";
 export const RECEIVE_SEARCH_LSIT = "RECEIVE_SEARCH_LIST";
-export const VIEW_LYRIC = "VIEW_LYRIC"; //播放页 视图或歌词
+export const RECEIVE_LYRIC = "RECEIVE_LYRIC"; //播放页 视图或歌词
 export const UPDATE_CURRENT_LYRIC = "UPDATE_CURRENT_LYRIC"; //更新当前歌词

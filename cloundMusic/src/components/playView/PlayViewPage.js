@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import  utils  from '../../utils/utils'
 import PlayViewPageStyle from './PlayViewPage.scss'
 import { changeCurrentPlay as changeCurrentPlayFn,fetchCurrentPlay } from '../../actions/playController'
-import { changeIsShowPlayView,switchLyric as switchLyricFn } from '../../actions/index'
+import { changeIsShowPlayView,receiveLyric as receiveLyricFn } from '../../actions/index'
 
 class PlayViewPage extends Component{
 
@@ -69,10 +69,10 @@ class PlayViewPage extends Component{
                     currentPlayId:playlist[i+parseInt(flag)].id
                 }
                 dispatch(fetchCurrentPlay(playObj))
-                let obj = {
-                    music_id:currentPlayId
-                };
-                dispatch(switchLyricFn(obj))
+                // let obj = {
+                //     music_id:currentPlayId
+                // };
+                // dispatch(switchLyricFn(obj))
                 break;
             }
         }
@@ -111,14 +111,13 @@ class PlayViewPage extends Component{
         const currentPlayId = changeCurrentPlay.currentPlayId;
         const showType = switchLyric.showType;
         let obj = {
-            showType:showType,
-            music_id:currentPlayId
+            showType:!showType
         };
-        dispatch(switchLyricFn(obj))
+        dispatch(receiveLyricFn(obj))
     }
 
     render(){
-        const { changeCurrentPlay ,isShowPlayView,switchLyric,updateCurrentLyric} = this.props
+        const { changeCurrentPlay ,isShowPlayView,switchLyric} = this.props
         const currentPlay = changeCurrentPlay.currentPlay;
         const isPlay = changeCurrentPlay.isPlay,
             currentTime = changeCurrentPlay.currentTime || 0;
@@ -153,8 +152,8 @@ class PlayViewPage extends Component{
                                 switchLyric.showType ?
                                     <div className="lyric-wrapper">
                                         {
-                                            updateCurrentLyric.currentLyric.map((item,i)=>
-                                                <p key={i} className={item.time==updateCurrentLyric.currentLyricTime  ?"item currentLyric":"item"}>{item.text}</p>
+                                            switchLyric.currentLyric.map((item,i)=>
+                                                <p key={i} className={item.time==switchLyric.currentLyricTime  ?"item currentLyric":"item"}>{item.text}</p>
                                             )
                                         }
                                     </div>

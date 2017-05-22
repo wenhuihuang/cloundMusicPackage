@@ -46,9 +46,9 @@ export const changeCurrentPlay = (state={ isPlay:false,currentTime:0,currentTime
 
 const parseTime = (t) => {
     let arr = [];
-    const m = parseInt(t/60),
+    const m = parseInt(t/60) || 0,
         mStr = ("00"+m).substring((""+m).length),
-        s = Math.round(((t/60)-parseInt(t/60))*60),
+        s = Math.round(((t/60)-parseInt(t/60))*60) || 0,
         sStr = ("00"+s).substring((""+s).length);
     arr.push(mStr);
     arr.push(sStr);

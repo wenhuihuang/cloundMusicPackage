@@ -1,17 +1,23 @@
 import React, { Component, PropTypes } from "react"
 import { changeCurrentPlay as changeCurrentPlayFn ,fetchCurrentPlay} from '../../actions/playController'
-import { changeIsShowPlayView,updateCurrentLyric } from '../../actions/index'
+import { changeIsShowPlayView,receiveLyric as receiveLyricFn } from '../../actions/index'
 import { Link } from 'react-router'
 
 import PlayControllerStyle from './PlayController.scss'
 
 class PlayController extends Component{
 
+    constructor(props){
+        super(props)
+        this.handleEnded=this.handleEnded.bind(this)
+    }
+
     componentDidMount(){
         this.circle = document.querySelector('#circle-progress');
         this.line = document.querySelector('#line');
         this.viewProgress = document.querySelector('.progress-wrapper');
         this.viewProgress_width = parseInt(getComputedStyle(this.viewProgress).width);
+
     }
 
     componentDidUpdate () {
@@ -55,6 +61,8 @@ class PlayController extends Component{
     onTimeUpdate(){
         const { changeCurrentPlay,switchLyric, dispatch } = this.props;
         const audio = document.getElementById('audio');
+
+
         let playObj = {
             ...changeCurrentPlay,
             currentTime:audio.currentTime,
@@ -65,7 +73,7 @@ class PlayController extends Component{
         this.setSvg(progress)
 
         let lyricStr = switchLyric.lyric || "",
-            reg = new RegExp("(\\[{1}[0-9]{2}:[0-9]{2}\.[0-9]{3}\]{1})","g");
+            reg = new RegExp("(\\[{1}[0-9]{2}:[0-9]{2}\.[0-9]{2,3}\]{1})","g");
         let lyricArray = lyricStr.replace(reg,'=>$1=>').split('=>');
         let lyricObjArray = [];
         let currentTimeS = (
@@ -76,34 +84,31 @@ class PlayController extends Component{
         for(let i = 1;i<lyricArray.length;i++){
             if(i%2 != 0){ //time
                 let timeArray = lyricArray[i].replace(/[\[\]]/g,"").split(':');
-                console.log(timeArray)
                 let time = parseInt(timeArray[0])*60+parseFloat(timeArray[1])
-                lyricObjArray.push({time:time.toFixed(3),text:lyricArray[i+1]})
                 if(currentTimeS>time){
                     let obj = {
                         currentLyricTime:time
                     }
-                    dispatch(updateCurrentLyric(obj))
+                    console.log(obj)
+                    dispatch(receiveLyricFn(obj))
                 }
             }
         }
 
-        let obj = {
-            currentLyric:lyricObjArray
-        }
-        dispatch(updateCurrentLyric(obj))
+
     }
 
-    handleEnded(flag){
+    handleEnded(){
         const {changeCurrentPlay,dispatch} = this.props;
         const currentPlayId = changeCurrentPlay.currentPlayId;
         const playlist = changeCurrentPlay.playlist || JSON.parse(window.localStorage.getItem('playlist'))
         for(var i = 0; i < playlist.length;i++){
+            //alert(currentPlayId == playlist[i].id)
             if(currentPlayId == playlist[i].id){
                 let playObj = {
                     ...changeCurrentPlay,
-                    currentPlay:playlist[i+parseInt(flag)],
-                    currentPlayId:playlist[i+parseInt(flag)].id
+                    currentPlay:playlist[i+1],
+                    currentPlayId:playlist[i+1].id
                 }
                 dispatch(fetchCurrentPlay(playObj))
                 break;
@@ -160,7 +165,7 @@ class PlayController extends Component{
 
 
                         <div className="play-list"><span className="icon iconfont">&#xe600;</span></div>
-                        <audio onTimeUpdate={this.onTimeUpdate.bind(this)} onEnded={this.handleEnded.bind(this,1)} id="audio" src={changeCurrentPlay.mp3Url} >您的浏览器不支持 audio 标签。</audio>
+                        <audio onTimeUpdate={this.onTimeUpdate.bind(this)} onEnded={this.handleEnded} id="audio" src={changeCurrentPlay.mp3Url} >您的浏览器不支持 audio 标签。</audio>
                     </div>
 
                 }

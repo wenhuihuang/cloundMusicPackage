@@ -179,13 +179,16 @@ const eachSearchWord = (obj, searchWord) => {
  * type -> 0,1 0表示视图 1表示歌词
  * music_id -> 歌曲id
  */
-export const switchLyric = (switchInfo) => dispatch => {
+export const fetchLyric = (switchInfo) => dispatch => {
     const showType = switchInfo.showType,
         music_id = switchInfo.music_id;
     let obj = {};
 
-    if (showType == 0) { // 视图 切换成歌词
-        obj.showType = 1;
+    if(showType !=null && showType !=undefined && showType != ""){
+        obj.showType=!showType
+    }
+
+    if(music_id){
         fetch('/api/song/lyric/' + music_id)
             .then(
                 response => response.json()
@@ -193,17 +196,38 @@ export const switchLyric = (switchInfo) => dispatch => {
             .then(
                 json => {
                     if (json.code === 200) {
-                        obj.lyric = json.lrc.lyric;
-                        console.log(obj)
-                        return dispatch(viewOrLyric(obj));
+
+                        let lyricStr = json.lrc.lyric || "",
+                            reg = new RegExp("(\\[{1}[0-9]{2}:[0-9]{2}\.[0-9]{2,3}\]{1})","g");
+                        let lyricArray = lyricStr.replace(reg,'=>$1=>').split('=>');
+                        let lyricObjArray = [];
+                        console.log(lyricArray)
+                        for(let i = 1;i<lyricArray.length;i++){
+                            if(i%2 != 0){ //time
+                                let timeArray = lyricArray[i].replace(/[\[\]]/g,"").split(':');
+                                let time = parseInt(timeArray[0])*60+parseFloat(timeArray[1])
+                                lyricObjArray.push({time:time.toFixed(3),text:lyricArray[i+1]})
+                            }
+                        }
+
+                        let obj = {
+                            lyric:json.lrc.lyric,
+                            currentLyric:lyricObjArray
+                        }
+                        console.log('--------------------')
+                        console.log(lyricObjArray)
+                        //dispatch(updateCurrentLyric(obj))
+
+
+                        return dispatch(receiveLyric(obj));
                     }
                 }
             )
-
-    } else if (showType == 1) { // 歌词 切换成视图
-        obj.showType = 0;
-        return dispatch(viewOrLyric(obj));
+    }else{
+        return dispatch(receiveLyric(obj));
     }
+
+
 
 }
 
@@ -213,10 +237,12 @@ export const updateCurrentLyric = (currentLyricObj) => ({
     currentLyricTime: currentLyricObj.currentLyricTime
 })
 
-export const viewOrLyric = (obj) => ({
-    type: types.VIEW_LYRIC,
+export const receiveLyric = (obj) => ({
+    type: types.RECEIVE_LYRIC,
     showType: obj.showType,
-    lyric: obj.lyric
+    lyric: obj.lyric,
+    currentLyric:obj.currentLyric,
+    currentLyricTime: obj.currentLyricTime
 })
 
 export const receiveToken = token => ({
@@ -344,30 +370,4 @@ export const fetchPlaylistDetail = (playlistDetail) => (dispatch, getState) => {
     return dispatch(fetchMusicDetail(playlistDetail))
 }
 
-/**
- *
- * @param music_id
- */
-export const getMp3 = (music_id) => (dispatch, getState) => {
-    let ids = [music_id]
-    let url = '/api/song/getMp3'
-    return fetch(url, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: 'ids=' + JSON.stringify(ids)
-    })
-        .then(
-            response => response.json()
-        )
-        .then(
-            json => {
-                //设置当前offset
-                if (json.code === 200) {
-                    return dispatch(receiveMusics(classify, json))
-                    console.log(json)
-                }
-            }
-        )
-}
+

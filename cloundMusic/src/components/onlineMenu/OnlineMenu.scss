@@ -10,6 +10,13 @@
     color:#000;
   }
   .item{
-
+    padding: 0 0.8rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    display: inline-block;
+  }
+  .active{
+    border-bottom: 0.2rem solid red;
+    color: red;
   }
 }

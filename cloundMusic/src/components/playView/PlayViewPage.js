@@ -5,22 +5,67 @@ import PlayViewPageStyle from './PlayViewPage.scss'
 import { changeCurrentPlay as changeCurrentPlayFn,fetchCurrentPlay } from '../../actions/playController'
 import { changeIsShowPlayView,receiveLyric as receiveLyricFn } from '../../actions/index'
 
+
 class PlayViewPage extends Component{
 
     constructor(props){
         super(props)
+        this.state = {y: 0};
         this.adjustProgress = this.adjustProgress.bind(this)
+        this.adjustLyric=this.adjustLyric.bind(this)
         //this.switchMusic=this.switchMusic.bind(this)
     }
 
+    componentDidMount(){
+
+
+    }
+
     componentDidUpdate(){
-        const { isShowPlayView } = this.props
-        if(isShowPlayView){
+        const me = this;
+        const { isShowPlayView } = this.props;
+        const audio = document.querySelector('#audio');
+        if(isShowPlayView){ //显示
             var body = document.querySelector('body')
             body.style.overflow='hidden';
-        }else{
+
+            if(audio){
+                const currentLyric = document.querySelector('.currentLyric');
+                audio.addEventListener('timeupdate',me.adjustLyric)
+            }
+        }else{ //隐藏
             var body = document.querySelector('body')
             body.style.overflow='auto';
+
+            if(audio){
+
+                audio.removeEventListener('timeupdate',me.adjustLyric)
+            }
+        }
+    }
+
+    adjustLyric(){
+        const {receiveLyric} = this.props;
+        const currentLyric = document.querySelector('.currentLyric'),
+            lyricWrapper   = document.querySelector('.lyric-wrapper'),
+            item = lyricWrapper&&lyricWrapper.querySelector('.item'),
+            wrapper = document.querySelector('.disk-view-content-wrapper'),
+            wrapperHeight = parseInt(getComputedStyle(wrapper).height);
+        if(currentLyric && lyricWrapper){
+            const offsetTop = currentLyric.offsetTop;
+
+            if(offsetTop >= wrapperHeight/2){
+                const y = (offsetTop-wrapperHeight/2)
+                this.setState({
+                    y: y
+                })
+                   // lyricWrapper.style.transform='translate3d(0,-'+y+'px,0)'
+            }else if(receiveLyric.showType){
+                this.setState({
+                    y: 0
+                })
+                //lyricWrapper.style.transform='translate3d(0,0,0)'
+            }
         }
     }
 
@@ -58,7 +103,7 @@ class PlayViewPage extends Component{
      * -1：上一曲，1下一曲
      */
     switchMusic(flag){
-        const {changeCurrentPlay,dispatch,switchLyric} = this.props;
+        const {changeCurrentPlay,dispatch,receiveLyric} = this.props;
         const currentPlayId = changeCurrentPlay.currentPlayId;
         const playlist = changeCurrentPlay.playlist || JSON.parse(window.localStorage.getItem('playlist'))
         for(var i = 0; i < playlist.length;i++){
@@ -107,9 +152,9 @@ class PlayViewPage extends Component{
      * 歌词 图片切换
      */
     switchView(){
-        const { dispatch,changeCurrentPlay,switchLyric } = this.props;
+        const { dispatch,changeCurrentPlay,receiveLyric } = this.props;
         const currentPlayId = changeCurrentPlay.currentPlayId;
-        const showType = switchLyric.showType;
+        let showType = receiveLyric.showType;
         let obj = {
             showType:!showType
         };
@@ -117,7 +162,7 @@ class PlayViewPage extends Component{
     }
 
     render(){
-        const { changeCurrentPlay ,isShowPlayView,switchLyric} = this.props
+        const { changeCurrentPlay ,isShowPlayView,receiveLyric} = this.props
         const currentPlay = changeCurrentPlay.currentPlay;
         const isPlay = changeCurrentPlay.isPlay,
             currentTime = changeCurrentPlay.currentTime || 0;
@@ -148,24 +193,20 @@ class PlayViewPage extends Component{
                         <div className="play-view-bg"  style={utils.setStyle({background:"url(http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg) no-repeat left top"})}></div>
                         {/*碟区*/}
                         <div className="disk-view-content-wrapper" onClick={this.switchView.bind(this)}>
-                            {
-                                switchLyric.showType ?
-                                    <div className="lyric-wrapper">
+                                    <div className={receiveLyric.showType? "lyric-wrapper" : "lyric-wrapper public-hidden"} style={utils.setStyle({"transform":"translate3d(0px,-"+this.state.y+"px, 0px)","transition": "all .5s"})}>
                                         {
-                                            switchLyric.currentLyric.map((item,i)=>
-                                                <p key={i} className={item.time==switchLyric.currentLyricTime  ?"item currentLyric":"item"}>{item.text}</p>
+                                            receiveLyric.currentLyric&&receiveLyric.currentLyric.map((item,i)=>
+                                                <p key={i} className={item.time==receiveLyric.currentLyricTime  ?"item currentLyric":"item"}>{item.text}</p>
                                             )
                                         }
                                     </div>
-                                    :
-                                    <div>
+                                    <div className={receiveLyric.showType ? "disk-wrapper public-hidden":"disk-wrapper"} style={utils.setStyle({transform:'translate3d(0px, 0px, 0px)'})}>
                                         <div className={isPlay ? 'play-controller-icon-rotate' : 'play-controller-icon'}></div>
                                         <div className={isPlay ? 'disk-view-content-active' : 'disk-view-content'} >
-                                            <img src="http://p1.music.126.net/zXuNaT1llCWCeQi08y0Vcg==/18719185464749718.jpg" alt=""/>
+                                            <img className="play-view-img" src={currentPlay&&currentPlay.album.picUrl} />
                                             <div className="disk-content-background"></div>
                                         </div>
                                     </div>
-                            }
 
                         </div>
                         {/*控控制区*/}

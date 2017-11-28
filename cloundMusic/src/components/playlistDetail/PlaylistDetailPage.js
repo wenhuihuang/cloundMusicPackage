@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchPlaylistDetail,getMp3 } from '../../actions/index'
 import { changeCurrentPlay,fetchCurrentPlay } from '../../actions/playController'
+import {Link} from 'react-router'
 import ReactDOM from 'react-dom'
 import PlaylistDetailPageStyle from './playlistDetailPage.scss'
 
@@ -10,6 +11,12 @@ class PlaylistDetailPage extends Component{
     static propTypes = {
         dispatch: PropTypes.func.isRequired
        // detail : PropTypes.object.isRequired
+    }
+
+    constructor(props){
+        super(props)
+        this.state={opacity:0,title:false}
+        this.handleScroll=this.handleScroll.bind(this)
     }
 
     componentWillMount () {
@@ -39,17 +46,54 @@ class PlaylistDetailPage extends Component{
 
     }
 
+    handleScroll(){
+        const playlistName = document.querySelector('.info-right-name'),
+            playlistDetail = document.querySelector('.playlist-detail')
+
+        this.setState({
+            opacity:playlistDetail.scrollTop/(playlistName.offsetTop + 50)
+        })
+        if(playlistDetail.scrollTop >= playlistName.offsetTop + 22){
+            this.setState({
+                title:true
+            })
+        }else{
+            this.setState({
+                title:false
+            })
+        }
+
+    }
+
+    back () {
+        window.history.back();
+    }
+
     render () {
         const { detail, currentPlay } = this.props
         const isUndefined = detail == undefined ? true : false
         return(
-            <div>
+            <div className="playlist-detail-page">
+                <div className="header">
+                    <div className="header-bg" style={this.setStyles({"opacity":this.state.opacity})}></div>
+                    <div className="header-back" onClick={this.back.bind(this)}>
+                        <span className="iconfont icon">&#xe675;</span>
+                    </div>
+                    <div className="header-title">
+                        {this.state.title?detail.name : "歌单"}
+                    </div>
+                    <div className="header-right">
+                        <Link to={'/search'}><span className="icon iconfont">&#xe8e0;</span></Link>
+                    </div>
+                </div>
                 { !isUndefined &&
-                    <div className="playlist-detail">
+                    <div className="playlist-detail"  onScroll={this.handleScroll}>
                     <div className="playlist-info">
                         <div className="playlist-top-wrap">
+
                             <div className="playlist-top-bg" style={this.setStyles({background:'url('+detail.coverImgUrl+') no-repeat left top'})}></div>
                             <div className="playlist-top-content">
+
                                 <div className="playlist-info-top">
                                     <div className="playlist-info-top-left">
                                         <div className="left-content">
@@ -60,7 +104,7 @@ class PlaylistDetailPage extends Component{
                                         </div>
                                     </div>
                                     <div className="playlist-info-top-right">
-                                        <p>{detail.name}</p>
+                                        <p className="info-right-name">{detail.name}</p>
                                         <p>{detail.creator.nickname}</p>
                                     </div>
                                 </div>

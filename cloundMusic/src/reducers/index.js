@@ -10,7 +10,8 @@ import {
     CHANGE_IS_SHOW_LEFT_MENU,
     RECEIVE_SEARCH_LSIT,
     RECEIVE_LYRIC,
-    UPDATE_CURRENT_LYRIC
+    UPDATE_CURRENT_LYRIC,
+    CHANGE_TOP_MENU
 } from '../constants/ActionTypes';
 
 import  {changeCurrentPlay}  from './playController'
@@ -120,12 +121,12 @@ const receiveSearchList = (state = {}, action) => {
     }
 }
 
-const switchLyric = (state={showType:0},action) => {
+const receiveLyric = (state={showType:false},action) => {
     switch (action.type){
         case RECEIVE_LYRIC:
             return {
                 ...state,
-                showType:action.showType || state.showType,
+                showType:action.showType ,
                 lyric:action.lyric || state.lyric,
                 currentLyric:action.currentLyric || state.currentLyric,
                 currentLyricTime: action.currentLyricTime || state.currentLyricTime
@@ -150,6 +151,21 @@ const updateCurrentLyric = (state={},action) => {
     }
 }
 
+//头部菜单
+const topMenu = (state={},action) => {
+    switch (action.type){
+        case CHANGE_TOP_MENU:
+            return{
+                ...state,
+                firstLevel:action.firstLevel,
+                secondLevel:action.secondLevel
+            }
+            break;
+        default:
+            return state;
+    }
+}
+
 
 const rootReducer = combineReducers({
     receiveMusics, //歌曲列表信息 全局对象state上面的receiveMusices
@@ -159,8 +175,9 @@ const rootReducer = combineReducers({
     changeCurrentPlay,
     changeIsShowLeftMenu,
     receiveSearchList,
-    switchLyric,
+    receiveLyric,
     updateCurrentLyric,
+    topMenu,
     routing
 })
 

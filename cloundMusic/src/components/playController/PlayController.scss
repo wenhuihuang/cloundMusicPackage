@@ -1,3 +1,4 @@
+@import "../../styles/function";
 .play-controller-wrap{
   position:fixed;
   right:0;
@@ -7,6 +8,7 @@
   height: 2.8rem;
   box-sizing: border-box;
   padding:.2rem;
+  z-index:102;
   .play-controller{
     display: flex;
     > a{
@@ -26,6 +28,12 @@
     }
     .play-name{
       flex:1.0;
+      .top{
+        font-size: px2rem(14);
+      }
+      .bottom{
+        font-size:px2rem(12);
+      }
     }
     .play-btn{
       width:2.8rem;

@@ -1,7 +1,6 @@
 import React , { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchMusicesList } from '../actions/index'
-import Header from '../components/header/Header'
 import Playlist from '../components/playlist/PlaylistPage'
 import AppStyle from './App.scss'
 import PlayController from '../components/playController/PlayController'
@@ -40,12 +39,11 @@ class App extends React.Component {
 
 
     render () {
-        const { children, changeCurrentPlay, dispatch, isShowPlayView, isShowLeftMenu,switchLyric,updateCurrentLyric } = this.props
+        const { children, changeCurrentPlay, dispatch, isShowPlayView, isShowLeftMenu,receiveLyric,updateCurrentLyric } = this.props
         return(
             <div>
-                <Header dispatch = {dispatch}></Header>
-                <PlayController changeCurrentPlay = {changeCurrentPlay}  switchLyric={switchLyric} dispatch = {dispatch} />
-                <PlayViewPage updateCurrentLyric={updateCurrentLyric} changeCurrentPlay = {changeCurrentPlay} switchLyric={switchLyric} dispatch = {dispatch} isShowPlayView = { isShowPlayView } />
+                <PlayController changeCurrentPlay = {changeCurrentPlay}  receiveLyric={receiveLyric} dispatch = {dispatch} />
+                <PlayViewPage updateCurrentLyric={updateCurrentLyric} changeCurrentPlay = {changeCurrentPlay} receiveLyric={receiveLyric} dispatch = {dispatch} isShowPlayView = { isShowPlayView } />
                 <LeftMenu isShow = {isShowLeftMenu} dispatch = { dispatch } />
                 {children}
             </div>
@@ -55,12 +53,12 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { changeCurrentPlay, changeIsShowPlayView, dispatch, changeIsShowLeftMenu,switchLyric,updateCurrentLyric } = state
+    const { changeCurrentPlay, changeIsShowPlayView, dispatch, changeIsShowLeftMenu,receiveLyric,updateCurrentLyric } = state
     return {
         changeCurrentPlay : changeCurrentPlay,
         isShowPlayView : changeIsShowPlayView.isShowPlayView,
         isShowLeftMenu : changeIsShowLeftMenu.isShowLeftMenu,
-        switchLyric,
+        receiveLyric,
         updateCurrentLyric,
         dispatch : dispatch
     }

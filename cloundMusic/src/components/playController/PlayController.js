@@ -59,7 +59,7 @@ class PlayController extends Component{
     }
 
     onTimeUpdate(){
-        const { changeCurrentPlay,switchLyric, dispatch } = this.props;
+        const { changeCurrentPlay,receiveLyric, dispatch } = this.props;
         const audio = document.getElementById('audio');
 
 
@@ -72,7 +72,7 @@ class PlayController extends Component{
         let progress = audio.currentTime * 100 / audio.duration || 0
         this.setSvg(progress)
 
-        let lyricStr = switchLyric.lyric || "",
+        let lyricStr = receiveLyric.lyric || "",
             reg = new RegExp("(\\[{1}[0-9]{2}:[0-9]{2}\.[0-9]{2,3}\]{1})","g");
         let lyricArray = lyricStr.replace(reg,'=>$1=>').split('=>');
         let lyricObjArray = [];
@@ -85,11 +85,11 @@ class PlayController extends Component{
             if(i%2 != 0){ //time
                 let timeArray = lyricArray[i].replace(/[\[\]]/g,"").split(':');
                 let time = parseInt(timeArray[0])*60+parseFloat(timeArray[1])
-                if(currentTimeS>time){
+                if(currentTimeS>=time){
                     let obj = {
-                        currentLyricTime:time
+                        currentLyricTime:time,
+                        showType:receiveLyric.showType
                     }
-                    console.log(obj)
                     dispatch(receiveLyricFn(obj))
                 }
             }
@@ -146,8 +146,8 @@ class PlayController extends Component{
                         <a href="javascript:;" onClick={this.showPlayView.bind(this)}>
                             <div className="cover-img"><img src={currentPlay.album.picUrl} /></div>
                             <div className="play-name">
-                                <p>{currentPlay.name}</p>
-                                <p>{currentPlay.artists[0].name}</p>
+                                <p className="top">{currentPlay.name}</p>
+                                <p className="bottom">{currentPlay.artists[0].name}</p>
                             </div>
                         </a>
 

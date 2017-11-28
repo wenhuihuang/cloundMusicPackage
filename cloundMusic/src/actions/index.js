@@ -203,7 +203,7 @@ export const fetchLyric = (switchInfo) => dispatch => {
                         let lyricObjArray = [];
                         console.log(lyricArray)
                         for(let i = 1;i<lyricArray.length;i++){
-                            if(i%2 != 0){ //time
+                            if(i%2 != 0 && lyricArray[i+1].trim() !="" && lyricArray[i+1].trim()  != null){ //time
                                 let timeArray = lyricArray[i].replace(/[\[\]]/g,"").split(':');
                                 let time = parseInt(timeArray[0])*60+parseFloat(timeArray[1])
                                 lyricObjArray.push({time:time.toFixed(3),text:lyricArray[i+1]})
@@ -214,8 +214,7 @@ export const fetchLyric = (switchInfo) => dispatch => {
                             lyric:json.lrc.lyric,
                             currentLyric:lyricObjArray
                         }
-                        console.log('--------------------')
-                        console.log(lyricObjArray)
+
                         //dispatch(updateCurrentLyric(obj))
 
 
@@ -369,5 +368,11 @@ export const fetchMusicesList = (classify) => (dispatch, getState) => {
 export const fetchPlaylistDetail = (playlistDetail) => (dispatch, getState) => {
     return dispatch(fetchMusicDetail(playlistDetail))
 }
+
+export const changeTopMenu = (obj) =>({
+    type : types.CHANGE_TOP_MENU,
+    firstLevel:obj.firstLevel,
+    secondLevel:obj.secondLevel
+})
 
 

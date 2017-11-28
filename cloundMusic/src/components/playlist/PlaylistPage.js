@@ -4,6 +4,7 @@ import PlaylistPageStyle from './PlaylistPage.scss'
 import { Router, Route, Link } from 'react-router'
 import { connect } from 'react-redux'
 import OnlineMenu from '../onlineMenu/OnlineMenu'
+import Header from '../header/Header'
 
 class PlaylistPage extends Component {
 
@@ -54,12 +55,20 @@ class PlaylistPage extends Component {
         }
 
 
-       // var timer;
-
+        /**
+         * 懒加载图片
+         */
         this.throttle(this.lazyload,500,1000)()
 
     }
 
+    /**
+     * 防震器
+     * @param fun
+     * @param delay
+     * @param time
+     * @returns {Function}
+     */
     throttle(fun, delay, time) {
         var   startTime = new Date();
        // clearTimeout(timer)
@@ -76,6 +85,9 @@ class PlaylistPage extends Component {
         }
     }
 
+    /**
+     * 设置图片src
+     */
     lazyload () {
         let playlistEle = document.getElementById('playlist');
         let listCol = document.querySelectorAll('.list-col')
@@ -95,10 +107,8 @@ class PlaylistPage extends Component {
         //paylist scrollTop
         let palylistTop = playlistEle.scrollTop
 
-        console.log(listCol.length)
 
         for(let i = 0,l = listCol.length; i < l;i++){
-            console.log(i)
             let oLi = listCol[i];
             var t = palylistClientHeight+ palylistTop;
             var h = oLi.offsetTop;
@@ -114,12 +124,15 @@ class PlaylistPage extends Component {
 
     render() {
         const {
-            items
+            items,
+            topMenu,
+            dispatch
         } = this.props
 
         return (
             <div>
-                <OnlineMenu />
+                <Header dispatch = {dispatch}></Header>
+                <OnlineMenu topMenu={topMenu} dispatch={dispatch} />
                 <ul className="public-clearfix list-wrapper" id="playlist" onScroll={this.handleScroll}>
                     {
                         items.map( ( item, i ) =>
@@ -153,7 +166,7 @@ class PlaylistPage extends Component {
 }
 
 const mapStateToProps = state => {
-    const { receiveMusics, activeItem }  = state
+    const { receiveMusics, activeItem,topMenu,dispatch }  = state
     const {
         more,
         items
@@ -164,7 +177,9 @@ const mapStateToProps = state => {
     return {
         activeItem,
         more,
-        items
+        items,
+        topMenu,
+        dispatch
     }
 }
 

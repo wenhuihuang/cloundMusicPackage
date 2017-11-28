@@ -1,9 +1,45 @@
+.playlist-detail-page{
+  position: relative;
+  top:0;
+  bottom:0;
+  width:100%;
+  background:#fff;
+  .header{
+    position: fixed;
+    top:0;
+    z-index: 100;
+    width:100%;
+    left:0;
+    right:0;
+    background:transparent;
+    &-bg{
+      width:100%;
+      top:0;
+      bottom:0;
+      background:#ccc;
+      position:absolute;
+      z-index:-1;
+    }
+    .header-title{
+      flex:1.0;
+    }
+    .header-right{
+      width: 2.8rem;
+    }
+  }
+}
 .playlist-detail{
+  padding-bottom:2.8rem;
+  position:fixed;
+  top:0;
+  bottom:0;
+  width:100%;
+  overflow-y: scroll;
   .playlist-info{
     .playlist-top-wrap{
       position: relative;
       .playlist-top-content{
-        padding: .8rem 1.2rem .5rem 1.2rem;
+        padding: 2.8rem 1.2rem .5rem 1.2rem;
       }
       .playlist-top-bg{
         position: absolute;

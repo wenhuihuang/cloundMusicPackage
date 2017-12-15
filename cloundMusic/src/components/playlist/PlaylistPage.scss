@@ -1,3 +1,4 @@
+@import 'src/styles/_function.scss';
 .iconfont{
   padding:0 .5rem;
 }
@@ -5,19 +6,22 @@
   margin-right: -0.5rem;
   overflow: scroll;
   position: fixed;
-  top: 5.2rem;
+  top: pxtorem(78);
   bottom: 0;
   left: 0;
   right: 0;
+  // display:flex;
+  // flex-flow: row wrap;
+  margin-right:pxtorem(-3);
   .list-col{
     float: left;
-    width: 50%;
-    padding-right: .5rem;
+    width: pxtorem(186);
     overflow: hidden;
+    margin-right:pxtorem(3);
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    height : 16rem;
+    height : pxtorem(186);
     a{
       display: block;
       text-decoration: none;
@@ -28,7 +32,7 @@
       img {
         width: 100%;
         display: block;
-        min-height:12rem;
+        min-height:pxtorem(186);
         border:none
       }
       position: relative;
@@ -38,32 +42,40 @@
         top: 0;
         right: 0;
         left: 0;
-        font-size: .9rem;
+        font-size: 13px;
         display: block;
-        width: 100%;
         text-align: right;
-        height: 2rem;
+        height: pxtorem(20);
+        line-height: pxtorem(20);
+        padding:0 pxtorem(4);
         background: -webkit-linear-gradient(top, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
         background: linear-gradient(top, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
+        .icon{
+          padding:0;
+        }
       }
       .list-creator{
-        font-size: .8rem;
+        font-size: 13px;
         position: absolute;
         color: #fff;
         bottom: 0;
         left: 0;
         right: 0;
         width: 100%;
-        height: 2rem;
+        height: pxtorem(20);
         display: -webkit-box;
         -webkit-box-align: end;
-        line-height: 1.4rem;
+        line-height: pxtorem(20);
         background: -webkit-linear-gradient(bottom, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
         background: linear-gradient(bottom, rgba(78, 73, 73, 0.58), rgba(101, 101, 101, 0));
+        .icon{
+          padding:0;
+          margin:0 pxtorem(4);
+        }
       }
     }
     .list-name{
-      font-size: .9rem;
+      font-size: 13px;
       width: 100%;
       height: 3rem;
       display: -webkit-box;

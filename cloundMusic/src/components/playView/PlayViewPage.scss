@@ -1,3 +1,4 @@
+@import 'src/styles/_function.scss';
 .playViewShow{
   transition: transform .4s;
   height:100%;
@@ -42,29 +43,31 @@
     align-items: center;
     &-back{
         .iconfont{
-          font-size:1.5rem;
+          font-size:pxtorem(15);
         }
     }
   }
   .play-view-bg{
     position:fixed;
-    top:2.8rem;
+    top:pxtorem(42);
     left:0;
     right:0;
     bottom:0;
     filter:blur(40px) saturate(1);
   }
   .disk-view-content-wrapper{
-    position:relative;
-    top: 2.85rem;
-    overflow: hidden;
-    min-height: 36rem;
+    position: absolute;
+    top: pxtorem(42);
+    overflow: auto;
+    bottom:pxtorem(114);
+    left:0;
+    right:0;
     .play-view-img{
       transform:scale(.95);
     }
     .play-controller-icon{
-      width:10.6rem;
-      height:10.6rem;
+      width:pxtorem(140);
+      height:pxtorem(140);
       background: url(../../images/disk_controller_icon.png) no-repeat top center;
       background-size: 100%;
       margin-left:-5.3rem;
@@ -83,21 +86,21 @@
 
     }
     .disk-view-content{
-      width:18rem+2*.6rem;
-      height:18rem + 2*.6rem;
+      width:pxtorem(280);
+      height:pxtorem(280);
       margin:0 auto;
       position:relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      top:7rem;
+      top:pxtorem(70);
       &-active{
         @extend .disk-view-content;
         animation:diskRotate 7.5s linear infinite;
       }
       .disk-content-background{
-        width:18rem;
-        height:18rem;
+        width:pxtorem(280);
+        height:pxtorem(280);
         position: absolute;
         border-radius: 50%;
         border:.61rem solid rgba(138, 136, 123, 0.12);
@@ -105,8 +108,8 @@
         &:before{
           content: '';
           display: block;
-          width:18rem;
-          height:18rem;
+          width:pxtorem(280);
+          height:pxtorem(280);
           background: url(../../images/disk_icon.png) no-repeat center center;
           background-size: 100%;
           position: absolute;
@@ -114,8 +117,8 @@
         }
       }
       img{
-        width:18rem;
-        height:18rem;
+        width:pxtorem(280);
+        height:pxtorem(280);
         border-radius: 50%;
         overflow: hidden;
         position: absolute;
@@ -150,7 +153,7 @@
       display: flex;
       color:#fff;
       .iconfont{
-        font-size:1.4rem;
+        font-size:pxtorem(16);
       }
     }
     .controller-top{
@@ -167,16 +170,16 @@
       align-item:center;
       justify-content:center;
       .used-time{
-        width:3.2rem;
+        width:pxtorem(60);
         display: flex;
         justify-content:center;
-        align-item:center;
+        align-items:center;
       }
       .all-time{
-        width:3.2rem;
+        width:pxtorem(60);
         display: flex;
         justify-content:center;
-        align-item:center;
+        align-items:center;
       }
       .progress-wrapper{
         flex:1.0;

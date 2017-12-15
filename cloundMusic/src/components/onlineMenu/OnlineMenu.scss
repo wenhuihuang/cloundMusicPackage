@@ -1,22 +1,23 @@
+@import 'src/styles/_function.scss';
 .online-menu{
   background: #fff;
   display: flex;
-  height: 2.4rem;
+  height: pxtorem(36);
   justify-content: space-around;
   align-items: center;
-  font-size: .8rem;
+  font-size: 14px;
   a{
     text-decoration: none;
     color:#000;
   }
   .item{
     padding: 0 0.8rem;
-    height: 2.2rem;
-    line-height: 2.2rem;
+    height: pxtorem(36);
+    line-height: pxtorem(36);
     display: inline-block;
   }
   .active{
-    border-bottom: 0.2rem solid red;
+    border-bottom: 2px solid red;
     color: red;
   }
 }

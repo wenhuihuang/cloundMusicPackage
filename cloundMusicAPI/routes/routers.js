@@ -4,11 +4,13 @@ var request = require('request')
 var fs = require('fs')
 var utils = require('../utils/utils')
 var crypto = require('../utils/Crypto');
+var { createWebAPIRequest } = require('../utils/util')
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     console.log('进入')
-    res.json({'code': 200})
+    res.json({ 'code': 200 })
     //res.render('index', { title: 'Express' });
 });
 
@@ -51,41 +53,34 @@ router.get('/playlist/detail/:playlist_id', function (req, res) {
 
     var params = req.params;
     var playlist_id = params.playlist_id;
-
-
-    // 歌单详情
-    var options = {
-        url: 'http://music.163.com/api/playlist/detail?id=' + playlist_id,
-        headers: {
-            'User-Agent': 'request'
+    var cookie = '';
+    const data = {
+        id: playlist_id,
+        offset: 0,
+        total: true,
+        limit: 1000,
+        n: 1000,
+        csrf_token: ''
+      }
+      createWebAPIRequest(
+        'music.163.com',
+        '/weapi/v3/playlist/detail',
+        'POST',
+        data,
+        cookie,
+        function(music_req)  {
+          console.log(music_req)
+          // detail = music_req
+          res.send(music_req)
+          // mergeRes()
+        },
+       function (err)  {
+           console.log('333')
+          res.status(502).send('fetch error')
         }
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            //console.log(info)
-            //var dir = utils.createDirByYMD();
-            var dir = 'temp';
-            if (!fs.existsSync('public/images/' + dir)) {
-                fs.mkdirSync('public/images/' + dir)
-            }
-            console.log(info.result.coverImgUrl)
-            /*  var r = request(info.result.coverImgUrl);
-             var filenameArray = info.result.coverImgUrl.split('/');
-             var filename = filenameArray[filenameArray.length-1]
-             r.on('response',  function (resp) {
-             // res.pipe(fs.createWriteStream('public/images/'+dir+'/'+filename));
-             resp.pipe(fs.createWriteStream('public/images/'+dir+'/playlist_detail_top_bg.'+filename.split('.')[1]));
-             info.tempBg = 'static/images/'+dir+'/playlist_detail_top_bg.'+filename.split('.')[1]
-             });*/
-            res.json(info);
+      )
 
 
-        }
-    }
-
-    request(options, callback);
 })
 
 //歌曲详情
@@ -128,14 +123,14 @@ router.post("/search/get", function (req, res) {
     console.log(formData)
     //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
     request.post({
-            url: 'http://music.163.com/api/search/get',
-            form: formData
-        },
+        url: 'http://music.163.com/api/search/get',
+        form: formData
+    },
         function (error, response, body) {
-            if(error){
+            if (error) {
                 res.json({
-                    code : 500,
-                    msg : '出错了！'
+                    code: 500,
+                    msg: '出错了！'
                 });
             }
             if (!error && response.statusCode == 200) {
@@ -177,10 +172,10 @@ router.post('/weapi/login/cellphone', function (req, res) {
 /**
  * 获取歌词
  */
-router.get('/song/lyric/:music_id',function(req,res){
+router.get('/song/lyric/:music_id', function (req, res) {
     var music_id = req.params.music_id;
     var options = {
-        url : "http://music.163.com/api/song/lyric?os=osx&id=" + music_id.trim() + "&lv=-1&kv=-1&tv=-1"
+        url: "http://music.163.com/api/song/lyric?os=osx&id=" + music_id.trim() + "&lv=-1&kv=-1&tv=-1"
     };
 
     function callback(error, response, body) {
@@ -196,44 +191,38 @@ router.get('/song/lyric/:music_id',function(req,res){
 });
 
 /**
- * 获取mp3
+ * 获取mp3url(播放)
  */
-router.post('/song/getMp3',function(req,res){
+router.post('/song/getMp3', function (req, res) {
     var params = req.body,
-        ids = params.ids, //关键词
-        br = params.bit_rate || 320000,
-        csrf_token = params.csrf_token; //搜索类型
-    var url = 'http://music.163.com/weapi/song/enhance/player/url';
-    if(csrf_token != null && csrf_token != undefined && csrf_token != "" ){
-        url +="?csrf_token="+csrf_token;
-    }
+        ids = params.ids; //关键词
 
-    var formData = {
-        'ids': ids,
-        'br': br
-    };
-    var encBody = crypto.aesRsaEncrypt(JSON.stringify(formData));
-    console.log(formData)
-    console.log(encBody)
-    //request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
-    request.post({
-            url: url,
-            form: encBody
-        },
-        function (error, response, body) {
-            if(error){
-                res.json({
-                    code : 500,
-                    msg : '出错了！'
-                });
-            }
-            if (!error && response.statusCode == 200) {
-                console.log(body)
-                var info = JSON.parse(body);
-                res.json(info);
-            }
+        const br = req.query.br || 999000
+        const data = {
+          ids: ids,
+          br: br,
+          csrf_token: ''
+        }
+        const cookie = req.get('Cookie') ? req.get('Cookie') : ''
+      
+        createWebAPIRequest(
+          'music.163.com',
+          '/weapi/song/enhance/player/url',
+          'POST',
+          data,
+          cookie,
+          music_req => {
+            res.setHeader('Content-Type', 'application/json')
+            res.send(music_req)
+          },
+          err => {
+            res.status(502).send('fetch error')
+          }
+        )
 
-        })
+
+
+
 });
 
 function encrypted_request(text) {
@@ -241,7 +230,7 @@ function encrypted_request(text) {
     secKey = createSecretKey(16)
     encText = aesEncrypt(aesEncrypt(text, nonce), secKey)
     encSecKey = rsaEncrypt(secKey, pubKey, modulus)
-    data = {'params': encText, 'encSecKey': encSecKey}
+    data = { 'params': encText, 'encSecKey': encSecKey }
     return data
 }
 

@@ -1,3 +1,4 @@
-@function px2rem( $px, $base: 15 ){
-  @return ($px / $base) * 1rem;
+$baseWidth:37.5; //设计稿宽度
+@function pxtorem($px){ //
+    @return ($px/$baseWidth) * 1rem;
 }

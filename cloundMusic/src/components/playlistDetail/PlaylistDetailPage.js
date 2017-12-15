@@ -139,7 +139,9 @@ class PlaylistDetailPage extends Component{
                                         <div className="playlist-no">{(currentPlay && currentPlay['id']  == item['id']) ? (<span className="icon iconfont red-color">&#xe82f;</span>) : (key+1)}</div>
                                         <div className="playlist-music-info">
                                             <p className="name">{item.name}</p>
-                                            <p className="artists-album">{item.artists[0].name} - {item.album.name}</p>
+                                            <p className="artists-album">{
+                                                item.ar.map((i,k)=>i.name)
+                                            } - {item.al.name}</p>
                                         </div>
                                         <div className="playlist-more">
 

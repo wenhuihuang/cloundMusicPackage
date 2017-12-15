@@ -310,7 +310,7 @@ const fetchMusicDetail = (playlistDetail) => (dispatch, getState) => {
                     // console.log(palette)
                     //  json.result.rgb=palette.Muted._rgb.join()
                     // json.result.localCoverImgUrl=url
-                    return dispatch(receivePlaylistDetail(json.result))
+                    return dispatch(receivePlaylistDetail(json.playlist))
                     // })
 
 

@@ -183,7 +183,7 @@ class PlayViewPage extends Component{
                                 <p>{currentPlay!=undefined&&currentPlay!=null&&currentPlay.name}</p>
                                 <p>{
                                     currentPlay!=undefined&&currentPlay!=null&&
-                                    this.eachArray(currentPlay.artists)
+                                    this.eachArray(currentPlay.ar)
                                 }</p>
                             </div>
                             <div className="header-right">
@@ -203,7 +203,7 @@ class PlayViewPage extends Component{
                                     <div className={receiveLyric.showType ? "disk-wrapper public-hidden":"disk-wrapper"} style={utils.setStyle({transform:'translate3d(0px, 0px, 0px)'})}>
                                         <div className={isPlay ? 'play-controller-icon-rotate' : 'play-controller-icon'}></div>
                                         <div className={isPlay ? 'disk-view-content-active' : 'disk-view-content'} >
-                                            <img className="play-view-img" src={currentPlay&&currentPlay.album.picUrl} />
+                                            <img className="play-view-img" src={currentPlay&&currentPlay.al.picUrl} />
                                             <div className="disk-content-background"></div>
                                         </div>
                                     </div>
@@ -238,8 +238,8 @@ class PlayViewPage extends Component{
                                     {/*<div className="progress-bar"></div>*/}
 
                                     <svg id="play-view-svg" width="100%" height="24px" xmlns="http://www.w3.org/2000/svg" version="1.1" onClick={this.adjustProgress}>
-                                        <line x1="0" y1="12" x2="100%" y2="12" stroke="#D1D3D7"  strokeWidth="5"/>
-                                        <line id="line" x1="0" y1="12" x2="100%" y2="12" stroke="rgb(255,0,0)" strokeWidth="5" strokeDasharray="0 100%" />
+                                        <line x1="0" y1="12" x2="100%" y2="12" stroke="#D1D3D7"  strokeWidth="3"/>
+                                        <line id="line" x1="0" y1="12" x2="100%" y2="12" stroke="rgb(255,0,0)" strokeWidth="3" strokeDasharray="0 100%" />
                                     </svg>
 
                                 </div>

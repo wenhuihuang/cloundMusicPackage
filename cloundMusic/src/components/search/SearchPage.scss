@@ -1,5 +1,5 @@
 @import "../../styles/function";
-$header_height:2.8rem;
+$header_height:pxtorem(42);
 .search-page{
   background: #fff;
   overflow: auto;
@@ -18,25 +18,29 @@ $header_height:2.8rem;
     top:0;
     left:0;
     right:0;
+    z-index:2;
     .head-back{
-      width: px2rem(48);
+      width: pxtorem(48);
     }
     .search-input-wrapper{
       flex: 1.0;
-      padding-right: px2rem(25);
+      padding-right: pxtorem(25);
       .search-input{
-        padding: px2rem(4);
+        padding: pxtorem(4);
         border: none;
         width: 100%;
         display: block;
         border: none;
         background: transparent;
-        border-bottom:px2rem(1) solid #fff;
+        border-bottom:pxtorem(1) solid #fff;
         color: #fff;
 
         &:focus{
           outline: none;
         }
+      }
+      .icon{
+        top:pxtorem(1);
       }
     }
   }
@@ -47,11 +51,12 @@ $header_height:2.8rem;
     right:0;
     width:88%;
     margin: 0 auto;
+    margin-top:pxtorem(42);
     background:#fff;
-    box-shadow: px2rem(0) px2rem(4) px2rem(6) px2rem(6) #d8d8d8;
+    box-shadow: pxtorem(0) pxtorem(4) pxtorem(6) pxtorem(6) #d8d8d8;
     z-index: 100;
     .item{
-      padding:px2rem(12) px2rem(10);
+      padding:pxtorem(12) pxtorem(10);
     }
   }
   .search-result-list{
@@ -65,16 +70,16 @@ $header_height:2.8rem;
       .search-type-content{
         display: block;
         .search-type-item{
-          padding:0 px2rem(12);
-          height:px2rem(40);
-          line-height:px2rem(40);
+          padding:0 pxtorem(12);
+          height:pxtorem(40);
+          line-height:pxtorem(40);
           display: inline-block;
           a{
             text-decoration: none;
             color:#000;
           }
           &-active{
-            border-bottom:px2rem(3) solid red;
+            border-bottom:pxtorem(3) solid red;
             color:red;
           }
 
@@ -82,23 +87,23 @@ $header_height:2.8rem;
       }
     }
     .search-list-wrapper{
-      padding-top:px2rem(40)
+      padding-top:pxtorem(40);
     }
     .search-list-item{
       display: flex;
-      font-size: px2rem(14);
-      border-bottom:px2rem(1) solid #ccc;
+      font-size: pxtorem(14);
+      border-bottom:pxtorem(1) solid #ccc;
       align-items:center;
-      padding:px2rem(12) px2rem(10);
+      padding:pxtorem(12) pxtorem(10);
 
       .search-list-left{
         flex:1.0;
         .song-name{
-          margin-bottom: px2rem(4);
+          margin-bottom: pxtorem(4);
         }
       }
       .search-list-right{
-        width: px2rem(24)
+        width: pxtorem(24)
       }
     }
 
@@ -110,14 +115,14 @@ $header_height:2.8rem;
     .list-right{
       display: flex;
       flex: 1.0;
-      border-bottom: px2rem(1) solid #ececec;
-      padding:px2rem(10) px2rem(10);
+      border-bottom: pxtorem(1) solid #ececec;
+      padding:pxtorem(10) pxtorem(10);
       .history-word{
         flex:1.0;
       }
     }
     .icon{
-      font-size:px2rem(16);
+      font-size:pxtorem(16);
     }
   }
 }

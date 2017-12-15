@@ -5,7 +5,7 @@
   left:0;
   bottom:0;
   background:#fff;
-  height: 2.8rem;
+  // height: pxtorem(42);
   box-sizing: border-box;
   padding:.2rem;
   z-index:102;
@@ -18,8 +18,8 @@
       color:#000;
     }
     .cover-img{
-      width:2.8rem;
-      height:2.8rem;
+      width:pxtorem(42);
+      height:pxtorem(42);
       img{
         display: block;
         width:100%;
@@ -28,15 +28,19 @@
     }
     .play-name{
       flex:1.0;
+      display:flex;
+      justify-content: center;
+      flex-direction: column;
+      padding-left:pxtorem(15);
       .top{
-        font-size: px2rem(14);
+        font-size: 13px;
       }
       .bottom{
-        font-size:px2rem(12);
+        font-size:12px;
       }
     }
     .play-btn{
-      width:2.8rem;
+      width:pxtorem(42);
       display: flex;
       align-items:center;
       justify-content:center;
@@ -44,19 +48,19 @@
       .icon{
         padding-bottom:3px;
         margin-top:-3px;
-        font-size:1.8rem;
+        font-size:pxtorem(32);
         position: absolute;
-        padding-top: 8px;
-        padding-left: 8px;
+        padding-top: 12px;
+        margin-left:1px;
       }
     }
     .play-list{
-      width:2.8rem;
+      width:pxtorem(42);
       display: flex;
       align-items: center;
       justify-content:center;
       .icon{
-        font-size:1.8rem;
+        font-size:pxtorem(32);
       }
     }
   }

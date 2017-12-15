@@ -1,9 +1,25 @@
+@import 'src/styles/_function.scss';
 .header{
-  height: 2.8rem;
+  height: pxtorem(42);
   background: #d33b30;
   color: #fff;
   display: flex;
   align-items: center;
+  .search-input-wrapper{
+    position: relative;
+    .icon{
+      position: absolute;
+      color:#ccc;
+      font-size:pxtorem(20);
+    }
+  }
+  .search-input{
+    width:pxtorem(278);
+    height:pxtorem(26);
+    background:#fff;
+    border:none;
+    border-radius: pxtorem(13);
+  }
   a{
     text-decoration: none;
     color:#fff;
@@ -21,7 +37,7 @@
     flex: 1.0;
     justify-content: space-around;
     .iconfont{
-      font-size:1.3rem;
+      font-size:pxtorem(20);
     }
   }
   &-search{

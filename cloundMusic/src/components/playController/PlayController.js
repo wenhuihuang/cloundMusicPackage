@@ -16,12 +16,12 @@ class PlayController extends Component{
         this.circle = document.querySelector('#circle-progress');
         this.line = document.querySelector('#line');
         this.viewProgress = document.querySelector('.progress-wrapper');
-        this.viewProgress_width = parseInt(getComputedStyle(this.viewProgress).width);
-
+       
     }
 
     componentDidUpdate () {
         const { changeCurrentPlay } = this.props
+        this.viewProgress_width = parseInt(getComputedStyle(this.viewProgress).width);
         if(changeCurrentPlay.isPlay){
             let audio = document.getElementById('audio')
            // audio.src=changeCurrentPlay.currentPlay.mp3Url
@@ -61,7 +61,6 @@ class PlayController extends Component{
     onTimeUpdate(){
         const { changeCurrentPlay,receiveLyric, dispatch } = this.props;
         const audio = document.getElementById('audio');
-
 
         let playObj = {
             ...changeCurrentPlay,
@@ -144,10 +143,10 @@ class PlayController extends Component{
 
                     <div className="play-controller">
                         <a href="javascript:;" onClick={this.showPlayView.bind(this)}>
-                            <div className="cover-img"><img src={currentPlay.album.picUrl} /></div>
+                            <div className="cover-img"><img src={currentPlay.al.picUrl} /></div>
                             <div className="play-name">
                                 <p className="top">{currentPlay.name}</p>
-                                <p className="bottom">{currentPlay.artists[0].name}</p>
+                                <p className="bottom">{currentPlay.ar[0].name}</p>
                             </div>
                         </a>
 

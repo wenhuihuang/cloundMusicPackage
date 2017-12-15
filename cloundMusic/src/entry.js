@@ -10,3 +10,6 @@ import './iconfont/iconfont.css';
 
 //引入组件
 import './index.js';
+
+//引入rem计算
+import './utils/resetSize.js';

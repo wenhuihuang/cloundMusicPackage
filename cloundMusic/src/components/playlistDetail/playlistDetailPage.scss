@@ -1,3 +1,4 @@
+@import 'src/styles/_function.scss';
 .playlist-detail-page{
   position: relative;
   top:0;
@@ -39,7 +40,7 @@
     .playlist-top-wrap{
       position: relative;
       .playlist-top-content{
-        padding: 2.8rem 1.2rem .5rem 1.2rem;
+        padding: pxtorem(42) pxtorem(12) pxtorem(10) pxtorem(12);
       }
       .playlist-top-bg{
         position: absolute;
@@ -99,7 +100,7 @@
     display: flex;
 
     .playlist-no{
-      width:2.1rem;
+      width:pxtorem(40);
       text-align: center;
       padding:.8rem 0;
       display: flex;
@@ -110,11 +111,16 @@
       border-bottom: 1px solid #D8DCDB;
       flex:1.0;
       padding:.8rem 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
       .name{
-        font-size:.9rem;
+        font-size:13px;
       }
       .artists-album{
-        font-size:.8rem;
+        font-size:12px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
     .playlist-more{

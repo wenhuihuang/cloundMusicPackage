@@ -46,7 +46,7 @@ const store = createStore(
 )
 
 const browserHistory = useRouterHistory(createHistory)({
-    basename: '/cloundMusic'
+    // basename: '/cloundMusic'
 })
 
 const history = syncHistoryWithStore(browserHistory, store)
